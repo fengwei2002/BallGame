@@ -1,0 +1,30 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="{% static 'css/game.css' %}">
+
+</head>
+<body>
+    <div id="game_12345678"></div>
+    
+	<script type="module">
+
+        import {Game} from "{% static 'js/dist/game.js' %}";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let game = new Game("game_12345678");
+        }
+        // 文件加载完毕之后创建一个 game 对象
+    </script>
+
+</body>
+</html>
