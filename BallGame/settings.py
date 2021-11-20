@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-ak^@#(74c7lo^*2(_^v87u^t#_9o%)hj_-@4)xpy-qmvl-)!ux
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+# 将公网 IP 添加到 ALLOWED_HOSTS 中，然后就可以在在浏览器中访问了
+# python3 manage.py runserver 0.0.0.0:8080
+
+ALLOWED_HOSTS = ["101.43.32.9"]
 
 
 # Application definition
