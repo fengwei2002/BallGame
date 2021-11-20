@@ -18,5 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('game/', include('game.urls')),
+    # 这里的 path 如果不加 'game/' 这个参数，改为 '', 的话，就会在根路由下
+    # 调用 game 下面的 urls.py ，而 game/urls.py 是在 "" 路由下，调用了一个 index 函数
+    # 而 index 函数在 game/views.py 下实现
     path('admin/', admin.site.urls),
+
 ]

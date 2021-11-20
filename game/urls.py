@@ -7,4 +7,4 @@ from game.views import index
 urlpatterns = [
     path("", index, name='index'),
     # path 将空路由绑定到 index 函数下
-    ]
+]
