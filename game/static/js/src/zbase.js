@@ -8,6 +8,11 @@ class Game {
         this.id = id;
         this.game = document.getElementById(id);
         this.menu = new GameMenu(this);
+        this.playground = new GamePlayGround(this);
+        this.start();
+    }
+
+    start() {
     }
 }
 
