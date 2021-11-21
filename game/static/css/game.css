@@ -69,3 +69,17 @@ body {
     background-image: url(https://media.giphy.com/media/01vw80KKJxhEtJNZvK/giphy.gif);
     background-size: 100% 100%;
 }
+
+.game-playground {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    color: white;
+}
+
+.game-map-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

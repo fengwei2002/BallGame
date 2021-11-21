@@ -43,6 +43,7 @@ class GameMenu {
 
     start() {
         this.add_listening_events();
+        this.show();
     }
 
 
@@ -65,7 +66,7 @@ class GameMenu {
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display="block";
+        this.menu.style.display="none";
     }
 
     hide() {
