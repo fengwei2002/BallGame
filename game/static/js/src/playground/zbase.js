@@ -10,7 +10,10 @@ class GamePlayGround {
         // 由于 width 的 height 会经常用到，所以这里读出
         this.width = this.playground.clientWidth;
         this.height = this.playground.clientHeight;
-        this.canvas = new GameMap(this);
+        this.game_map = new GameMap(this);
+
+		this.players = [];
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
 
         this.start();
     }

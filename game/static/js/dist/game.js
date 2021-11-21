@@ -140,9 +140,7 @@ class GameMap extends GameObject {
         // 使用 canvas 创建画布
         this.canvas = document.createElement('canvas');
         this.canvas.className = 'game-map-canvas';
-        this.canvas.innerHTML = `
-        123
-        `
+        this.canvas.innerHTML = ``;
 
         this.ctx = this.canvas.getContext('2d');
         this.root.playground.appendChild(this.canvas);
@@ -150,15 +148,51 @@ class GameMap extends GameObject {
     }
 
     start() {
-        this.render();
     }
 
     update() {
+        this.render();
     }
 
     render() {
-        this.ctx.fillStyle = '#9400d3';
+        this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    }
+}
+class Player extends GameObject {
+    constructor(root, x, y, radius, color, speed, is_me) {
+        super();
+
+        this.root = root;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.speed = speed;
+        this.is_me = is_me;
+
+        this.ctx = this.root.game_map.ctx;
+        this.eps = 0.1; // 控制精度
+    }
+
+
+    start() {
+    }
+
+    update() {
+        this.render();
+    }
+
+    render() {
+        let a = Number(this.x);
+        let b = Number(this.y);
+        let c = Number(this.radius);
+
+        this.ctx.beginPath();
+        this.ctx.arc(a, b, 40, 0, Math.PI * 2, false);
+        this.ctx.fillStyle = 'white';
+        this.ctx.fill();
+
     }
 }
 class GamePlayGround {
@@ -173,7 +207,10 @@ class GamePlayGround {
         // 由于 width 的 height 会经常用到，所以这里读出
         this.width = this.playground.clientWidth;
         this.height = this.playground.clientHeight;
-        this.canvas = new GameMap(this);
+        this.game_map = new GameMap(this);
+
+		this.players = [];
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
 
         this.start();
     }
