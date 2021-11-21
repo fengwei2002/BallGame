@@ -23,13 +23,13 @@ class Player extends GameObject {
     }
 
     render() {
-        let a = Number(this.x);
-        let b = Number(this.y);
-        let c = Number(this.radius);
+        let a = Number(this.x) / 10;
+        let b = Number(this.y) / 10;
+        let c = Number(this.radius) / 10;
 
         this.ctx.beginPath();
-        this.ctx.arc(a, b, 40, 0, Math.PI * 2, false);
-        this.ctx.fillStyle = 'white';
+        this.ctx.arc(a, b, c, 0, Math.PI * 2, false);
+        this.ctx.fillStyle = this.color;
         this.ctx.fill();
 
     }
