@@ -10,7 +10,7 @@ from game.views.index import index
 
 urlpatterns = [
     path("", index, name='index'),
-    path("menu/", include(game.urls.menu.index), # 注意这里没有 .py
-    path("palyground/", include(game.urls.playground.index),
-    path("settings/", include(game.urls.setting.index),
+    path("menu/", include("game.urls.menu.index")), # 注意这里没有 .py
+    path("palyground/", include("game.urls.playground.index")), # 并且 include 函数接收的是一个字符串
+    path("settings/", include("game.urls.settings.index")),
 ]

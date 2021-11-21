@@ -5,6 +5,10 @@
 class Game {
     constructor(id) {
         // js 中的构造函数
-        console(id);
+        this.id = id;
+        this.game = document.getElementById(id);
+        this.menu = new GameMenu(this);
     }
 }
+
+export {Game}
