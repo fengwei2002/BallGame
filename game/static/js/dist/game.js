@@ -115,7 +115,7 @@ class GameObject {
 
 
     destroy() { // 调用 destory 函数就在数组中删除当前物体，不再继续提供渲染服务
-        this.on_destory();
+        this.on_destroy();
 
         for (let i = 0; i < GAME_OBJECTS.length; i++) {
             if (GAME_OBJECTS[i] === this) {
@@ -208,6 +208,10 @@ class Player extends GameObject {
         this.vy = 0;
         this.move_length = 0;
         this.eps = 0.1;
+
+
+        this.cur_skill = null;
+
     }
 
     start() {
@@ -219,6 +223,7 @@ class Player extends GameObject {
             this.move_to(tx, ty);
         }
     }
+
 
     add_listening_events() {
 		let outer = this;
@@ -233,10 +238,76 @@ class Player extends GameObject {
 				outer.move_to(e.clientX, e.clientY);
            } else if (e.button === 0) {
                 // 点了左键 执行发射函数
+                if (outer.cur_skill === 'fireball') {
+                    outer.shoot_fireball(e.clientX, e.clientY);
+                }
+
+                outer.cur_skill = null;
            } else if (e.button === 1) {
                 // alert("你点了滚轮");
            }
         }
+
+
+
+        // 添加按键事件
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/code
+
+		window.addEventListener("keydown", function(event) {
+  			// let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
+
+  			if (event.code === 'KeyQ') {
+                outer.cur_skill = "fireball";
+			}
+
+            if (event.code === 'Space') {
+                console.log('space')
+            }
+
+            if (event.code === 'ArrowUp') {
+                console.log('u')
+                outer_this.x = outer_this.x + 1;
+            }
+
+            if (event.code === 'ArrowDown') {
+                console.log('d')
+                move_to(this.x, this.y + 10);
+            }
+
+            if (event.code === 'ArrowLeft') {
+                console.log('L');
+                move_to(this.x - 10, this.y);
+            }
+
+            if (event.code === 'ArrowRight') {
+                console.log('R')
+                move_to(this.x + 10, this.y);
+            }
+
+		}, true);
+
+
+    }
+
+    shoot_fireball(fire_tx, fire_ty) {
+        // console.log('tx %d ty %d', fire_tx, fire_ty);
+        let begin_x = this.x;
+        let begin_y = this.y;
+        console.log('x %d y %d', begin_x, begin_y);
+
+        let fire_radius = this.playground_root.height * 0.02;
+
+        let angle = Math.atan2(fire_tx - begin_x, fire_ty - begin_y);
+        let vx = Math.sin(angle);
+        let vy = Math.cos(angle);
+
+        let color = "#9400d3";
+
+        let speed = this.playground_root.height * 0.5;
+        let move_length = this.playground_root.height * 0.5;
+
+        // playground_root, player, x, y, radius, vx, vy, color, spedd, move_length
+        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius, vx, vy, color, speed, move_length);
     }
 
 
@@ -271,6 +342,56 @@ class Player extends GameObject {
     }
 
     render() {  // 画饼~！
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fill();
+    }
+}
+class FireBall extends GameObject {
+    constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length) {
+        super();
+
+        console.log('make fire');
+        this.playground_root = playground_root;
+        this.player = player;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.vx = vx;
+        this.vy = vy;
+        this.color = color;
+        this.speed = speed;
+        this.move_length = move_length;
+        this.eps = 0.1;
+
+        this.ctx = this.playground_root.game_map.ctx;
+    }
+
+
+    start() {
+
+    }
+
+    update() {
+        if (this.move_length < this.eps) {
+            this.destroy();
+            this.move_length = 0;
+            this.vx = 0;
+            this.vy = 0;
+            return false;
+        }
+        console.log('update fire %d', this.move_length);
+
+        let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
+        this.x += this.vx * moved;
+        this.y += this.vy * moved;
+        this.move_length -= moved;
+
+        this.render();
+    }
+
+    render() {  // 画小饼~！
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;

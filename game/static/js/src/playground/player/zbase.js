@@ -16,6 +16,10 @@ class Player extends GameObject {
         this.vy = 0;
         this.move_length = 0;
         this.eps = 0.1;
+
+
+        this.cur_skill = null;
+
     }
 
     start() {
@@ -27,6 +31,7 @@ class Player extends GameObject {
             this.move_to(tx, ty);
         }
     }
+
 
     add_listening_events() {
 		let outer = this;
@@ -41,10 +46,76 @@ class Player extends GameObject {
 				outer.move_to(e.clientX, e.clientY);
            } else if (e.button === 0) {
                 // 点了左键 执行发射函数
+                if (outer.cur_skill === 'fireball') {
+                    outer.shoot_fireball(e.clientX, e.clientY);
+                }
+
+                outer.cur_skill = null;
            } else if (e.button === 1) {
                 // alert("你点了滚轮");
            }
         }
+
+
+
+        // 添加按键事件
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/code
+
+		window.addEventListener("keydown", function(event) {
+  			// let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
+
+  			if (event.code === 'KeyQ') {
+                outer.cur_skill = "fireball";
+			}
+
+            if (event.code === 'Space') {
+                console.log('space')
+            }
+
+            if (event.code === 'ArrowUp') {
+                console.log('u')
+                outer_this.x = outer_this.x + 1;
+            }
+
+            if (event.code === 'ArrowDown') {
+                console.log('d')
+                move_to(this.x, this.y + 10);
+            }
+
+            if (event.code === 'ArrowLeft') {
+                console.log('L');
+                move_to(this.x - 10, this.y);
+            }
+
+            if (event.code === 'ArrowRight') {
+                console.log('R')
+                move_to(this.x + 10, this.y);
+            }
+
+		}, true);
+
+
+    }
+
+    shoot_fireball(fire_tx, fire_ty) {
+        // console.log('tx %d ty %d', fire_tx, fire_ty);
+        let begin_x = this.x;
+        let begin_y = this.y;
+        console.log('x %d y %d', begin_x, begin_y);
+
+        let fire_radius = this.playground_root.height * 0.02;
+
+        let angle = Math.atan2(fire_tx - begin_x, fire_ty - begin_y);
+        let vx = Math.sin(angle);
+        let vy = Math.cos(angle);
+
+        let color = "#9400d3";
+
+        let speed = this.playground_root.height * 0.5;
+        let move_length = this.playground_root.height * 0.5;
+
+        // playground_root, player, x, y, radius, vx, vy, color, spedd, move_length
+        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius, vx, vy, color, speed, move_length);
     }
 
 

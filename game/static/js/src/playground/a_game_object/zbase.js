@@ -30,7 +30,7 @@ class GameObject {
 
 
     destroy() { // 调用 destory 函数就在数组中删除当前物体，不再继续提供渲染服务
-        this.on_destory();
+        this.on_destroy();
 
         for (let i = 0; i < GAME_OBJECTS.length; i++) {
             if (GAME_OBJECTS[i] === this) {
