@@ -1,6 +1,9 @@
 // 文件名是 zbase 的原因是因为按照字典序排序的话
-// zbase 一定会在最后面
-
+// 这个 js 是总领的 js 文件，
+// 功能包含 获取 html 中的 js game 对象
+//          创建 menu 对象，使用 menu/GameMenu
+//          创建 playground 对象，使用 playground/GamePlayGround
+//
 
 class Game {
     constructor(id) {

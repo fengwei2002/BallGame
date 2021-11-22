@@ -1,3 +1,10 @@
+// 这是创建 menu 对象的主 js
+// 功能包含：
+//          在 menu 下创建 div，game-menu
+//          里面的 html 内容包含基础的菜单选项，每个选项的类用成员变量保存下来
+//          为这些成员变量添加事件监听函数
+//          将新创建的 menu 对象加入到 root.game 下面，根据 display 控制元素是否显示
+
 class GameMenu {
     constructor(root) {
         // 传入的 root 就相当于 web.html 中定义的 Game 对象
@@ -27,6 +34,8 @@ class GameMenu {
             </div>
         </div>
             `;
+
+
         // 将 menu 的每个类绑定到成员变量
         this.single = this.menu.querySelector('.game-menu-item-single');
         this.mul = this.menu.querySelector('.game-menu-item-multi');
@@ -36,7 +45,6 @@ class GameMenu {
         this.box = this.menu.querySelector('.game-menu-background-box');
 
         this.root.game.appendChild(this.menu);
-
 
         this.start();
     }
