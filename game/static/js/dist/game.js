@@ -211,7 +211,7 @@ class Player extends GameObject {
 
 
         this.cur_skill = null;
-
+        // console.log('add player')
     }
 
     start() {
@@ -219,7 +219,7 @@ class Player extends GameObject {
             this.add_listening_events();
         } else {
             let tx = Math.random() * this.playground_root.width;
-            let ty = Math.random() * this.playground_root.wifth;
+            let ty = Math.random() * this.playground_root.height;
             this.move_to(tx, ty);
         }
     }
@@ -293,7 +293,7 @@ class Player extends GameObject {
         // console.log('tx %d ty %d', fire_tx, fire_ty);
         let begin_x = this.x;
         let begin_y = this.y;
-        console.log('x %d y %d', begin_x, begin_y);
+        // console.log('x %d y %d', begin_x, begin_y);
 
         let fire_radius = this.playground_root.height * 0.02;
 
@@ -330,6 +330,11 @@ class Player extends GameObject {
             this.move_length = 0;
             this.vx = 0;
             this.vy = 0;
+            if (!this.is_me) {
+                let tx = Math.random() * this.playground_root.width;
+                let ty = Math.random() * this.playground_root.height;
+                this.move_to(tx, ty);
+            }
         } else {
             // 每秒钟移动 speed
             // v = s / t, s = v * t
@@ -352,7 +357,7 @@ class FireBall extends GameObject {
     constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length) {
         super();
 
-        console.log('make fire');
+        // console.log('make fire');
         this.playground_root = playground_root;
         this.player = player;
         this.x = x;
@@ -381,7 +386,7 @@ class FireBall extends GameObject {
             this.vy = 0;
             return false;
         }
-        console.log('update fire %d', this.move_length);
+        // console.log('update fire %d', this.move_length);
 
         let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
         this.x += this.vx * moved;
@@ -425,9 +430,10 @@ class GamePlayGround {
     }
 
 
+
     get_random_color() {
-        let colors = ["blue", "red", "pink", "grey", "green", "purple"];
-        return colors[Math.floor((Math.random()) * 5)];
+        let return_color = this.colors[Math.floor((Math.random) * 5)]
+        return return_color;
     }
 
 
@@ -438,14 +444,14 @@ class GamePlayGround {
 		this.game_map = new GameMap(this);                                                                                                                                               23
 
         this.players = [];
-
+        this.colors = ["blue", "red", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
 		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
 
-        /*
- 	    for (let i = 0; i < 5; i++) {
- 	         this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
-        }*/
+ 	    for (let i = 4; i < 4 + 5; i++) {
+            let p_color = this.colors[i];
+ 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.15, false));
+        }
     }
 
     show() { // 展示 playground 页面

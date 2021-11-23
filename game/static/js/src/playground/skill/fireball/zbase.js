@@ -2,7 +2,7 @@ class FireBall extends GameObject {
     constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length) {
         super();
 
-        console.log('make fire');
+        // console.log('make fire');
         this.playground_root = playground_root;
         this.player = player;
         this.x = x;
@@ -31,7 +31,7 @@ class FireBall extends GameObject {
             this.vy = 0;
             return false;
         }
-        console.log('update fire %d', this.move_length);
+        // console.log('update fire %d', this.move_length);
 
         let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
         this.x += this.vx * moved;

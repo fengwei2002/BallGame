@@ -19,7 +19,7 @@ class Player extends GameObject {
 
 
         this.cur_skill = null;
-
+        // console.log('add player')
     }
 
     start() {
@@ -27,7 +27,7 @@ class Player extends GameObject {
             this.add_listening_events();
         } else {
             let tx = Math.random() * this.playground_root.width;
-            let ty = Math.random() * this.playground_root.wifth;
+            let ty = Math.random() * this.playground_root.height;
             this.move_to(tx, ty);
         }
     }
@@ -101,7 +101,7 @@ class Player extends GameObject {
         // console.log('tx %d ty %d', fire_tx, fire_ty);
         let begin_x = this.x;
         let begin_y = this.y;
-        console.log('x %d y %d', begin_x, begin_y);
+        // console.log('x %d y %d', begin_x, begin_y);
 
         let fire_radius = this.playground_root.height * 0.02;
 
@@ -138,6 +138,11 @@ class Player extends GameObject {
             this.move_length = 0;
             this.vx = 0;
             this.vy = 0;
+            if (!this.is_me) {
+                let tx = Math.random() * this.playground_root.width;
+                let ty = Math.random() * this.playground_root.height;
+                this.move_to(tx, ty);
+            }
         } else {
             // 每秒钟移动 speed
             // v = s / t, s = v * t
