@@ -1,8 +1,11 @@
+// 火球对象， 构建之后获得一个移动的火球
+
+
 class FireBall extends GameObject {
+
     constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length) {
         super();
 
-        // console.log('make fire');
         this.playground_root = playground_root;
         this.player = player;
         this.x = x;
@@ -26,12 +29,8 @@ class FireBall extends GameObject {
     update() {
         if (this.move_length < this.eps) {
             this.destroy();
-            this.move_length = 0;
-            this.vx = 0;
-            this.vy = 0;
             return false;
         }
-        // console.log('update fire %d', this.move_length);
 
         let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
         this.x += this.vx * moved;
@@ -40,6 +39,7 @@ class FireBall extends GameObject {
 
         this.render();
     }
+
 
     render() {  // 画小饼~！
         this.ctx.beginPath();

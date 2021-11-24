@@ -19,8 +19,8 @@ class Player extends GameObject {
 
 
         this.cur_skill = null;
-        // console.log('add player')
     }
+
 
     start() {
         if (this.is_me) {
@@ -31,6 +31,7 @@ class Player extends GameObject {
             this.move_to(tx, ty);
         }
     }
+
 
 
     add_listening_events() {
@@ -93,21 +94,19 @@ class Player extends GameObject {
             }
 
 		}, true);
-
-
     }
 
+
+
     shoot_fireball(fire_tx, fire_ty) {
-        // console.log('tx %d ty %d', fire_tx, fire_ty);
         let begin_x = this.x;
         let begin_y = this.y;
-        // console.log('x %d y %d', begin_x, begin_y);
 
         let fire_radius = this.playground_root.height * 0.02;
 
-        let angle = Math.atan2(fire_tx - begin_x, fire_ty - begin_y);
-        let vx = Math.sin(angle);
-        let vy = Math.cos(angle);
+        let angle = Math.atan2(fire_ty - begin_y, fire_tx - begin_x);
+        let vx = Math.cos(angle);
+        let vy = Math.sin(angle);
 
         let color = "#9400d3";
 
@@ -121,10 +120,11 @@ class Player extends GameObject {
 
 	move_to(tx, ty) {
 		this.move_length = this.get_dist(this.x, this.y, tx, ty);
-		let angle = Math.atan2(ty -this.y, tx - this.x); // atan2 求角度
+		let angle = Math.atan2(ty -this.y, tx - this.x);            // atan2 求角度
 		this.vx = Math.cos(angle);
         this.vy = Math.sin(angle);
 	}
+
 
 
 	get_dist(x1, y1, x2, y2) {
@@ -133,19 +133,20 @@ class Player extends GameObject {
 		return Math.sqrt(dx * dx, dy * dy);
 	}
 
+
+
     update() {
         if (this.move_length < this.eps) {
             this.move_length = 0;
             this.vx = 0;
             this.vy = 0;
+
             if (!this.is_me) {
                 let tx = Math.random() * this.playground_root.width;
                 let ty = Math.random() * this.playground_root.height;
                 this.move_to(tx, ty);
             }
         } else {
-            // 每秒钟移动 speed
-            // v = s / t, s = v * t
             let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
             this.x += this.vx * moved;
             this.y += this.vy * moved;
@@ -153,6 +154,8 @@ class Player extends GameObject {
         }
         this.render();
     }
+
+
 
     render() {  // 画饼~！
         this.ctx.beginPath();
