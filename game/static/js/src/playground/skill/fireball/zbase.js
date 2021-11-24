@@ -3,7 +3,7 @@
 
 class FireBall extends GameObject {
 
-    constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length) {
+    constructor(playground_root, player, x, y, radius, vx, vy, color, speed, move_length, damage) {
         super();
 
         this.playground_root = playground_root;
@@ -19,6 +19,8 @@ class FireBall extends GameObject {
         this.eps = 0.1;
 
         this.ctx = this.playground_root.game_map.ctx;
+
+        this.damage = damage;
     }
 
 
@@ -37,8 +39,37 @@ class FireBall extends GameObject {
         this.y += this.vy * moved;
         this.move_length -= moved;
 
+        for (let i = 0; i < this.playground_root.players.length; i++) {
+            let player = this.playground_root.players[i];
+            if (this.player != player && this.is_collision(player)) {
+                this.attack(player);
+            }
+        }
         this.render();
     }
+
+
+	get_dist(x1, y1, x2, y2) {
+        let dx = x1 - x2;
+        let dy = y1 - y2;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+
+    is_collision(player) {
+        let distance = this.get_dist(this.x, this.y, player.x, player.y);
+        if (distance < this.radius + player.radius)
+            return true;
+        return false;
+    }
+
+
+    attack(player) {
+        let angle = Math.atan2(player.y - this.y, player.x - this.x);
+        player.is_attacked(angle, this.damage);
+        this.destroy();
+    }
+
 
 
     render() {  // 画小饼~！

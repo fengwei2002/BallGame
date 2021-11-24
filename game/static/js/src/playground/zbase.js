@@ -41,11 +41,11 @@ class GamePlayGround {
         this.players = [];
         this.colors = ["blue", "red", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
-		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
+		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
 
  	    for (let i = 4; i < 4 + 5; i++) {
             let p_color = this.colors[i];
- 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.15, false));
+ 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
         }
     }
 
