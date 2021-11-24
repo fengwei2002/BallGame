@@ -121,7 +121,7 @@ class Player extends GameObject {
         let move_length = this.playground_root.height * 0.5;
 
         // playground_root, player, x, y, radius, vx, vy, color, speed, move_length
-        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius, vx, vy, color, speed * 1.1, move_length * 1.3, this.playground_root.height * 0.01); // 每次打玩家 20 % 血量
+        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius * 0.8, vx, vy, color, speed * 1.1, move_length * 1.3, this.playground_root.height * 0.01); // 每次打玩家 20 % 血量
     }
 
 
@@ -152,7 +152,7 @@ class Player extends GameObject {
             let color = this.color;
             let speed = this.speed * 10;
             let move_length = this.radius * Math.random() * 5;
-            // new Particle(this.playground, x, y, radius, vx, vy, color, speed, move_length);
+            new Particle(this.playground_root, x, y, radius, vx, vy, color, speed, move_length);
         }
 
         this.radius -= damage;
@@ -172,9 +172,12 @@ class Player extends GameObject {
     update() {
 		this.spent_time += this.timedelta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
-            let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
-            let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
-            let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
+            let player = this.playground_root.players[Math.floor(Math.random() * this.playground.players.length)];
+            // 随机选取一名幸运观众
+
+            // 向预判方向发射一枚子弹
+            let tx = player.x + player.speed * this.vx * this.time_delta / 1000 * 0.3;
+            let ty = player.y + player.speed * this.vy * this.time_delta / 1000 * 0.3;
             this.shoot_fireball(tx, ty);
         }
 

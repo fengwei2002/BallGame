@@ -190,6 +190,49 @@ class GameMap extends GameObject {
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
 }
+// 粒子特效类：，相当于释放一周，同颜色的，没有伤害的随机球
+
+class Particle extends GameObject {
+    constructor(playground_root, x, y, radius, vx, vy, color, speed, move_length) {
+        super();
+        this.playground = playground_root;
+        this.ctx = this.playground.game_map.ctx;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.vx = vx;
+        this.vy = vy;
+        this.color = color;
+        this.speed = speed;
+        this.move_length = move_length;
+        this.friction = 0.9;
+        this.eps = 1;
+    }
+
+    start() {
+    }
+
+    update() {
+        if (this.move_length < this.eps || this.speed < this.eps) {
+            this.destroy();
+            return false;
+        }
+
+        let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
+        this.x += this.vx * moved;
+        this.y += this.vy * moved;
+        this.speed *= this.friction;
+        this.move_length -= moved;
+        this.render();
+    }
+
+    render() {
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fill();
+    }
+}
 class Player extends GameObject {
     constructor(playground_root, x, y, radius, color, speed, is_me) {
         super();
@@ -313,7 +356,7 @@ class Player extends GameObject {
         let move_length = this.playground_root.height * 0.5;
 
         // playground_root, player, x, y, radius, vx, vy, color, speed, move_length
-        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius, vx, vy, color, speed * 1.1, move_length * 1.3, this.playground_root.height * 0.01); // 每次打玩家 20 % 血量
+        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius * 0.8, vx, vy, color, speed * 1.1, move_length * 1.3, this.playground_root.height * 0.01); // 每次打玩家 20 % 血量
     }
 
 
@@ -344,7 +387,7 @@ class Player extends GameObject {
             let color = this.color;
             let speed = this.speed * 10;
             let move_length = this.radius * Math.random() * 5;
-            // new Particle(this.playground, x, y, radius, vx, vy, color, speed, move_length);
+            new Particle(this.playground_root, x, y, radius, vx, vy, color, speed, move_length);
         }
 
         this.radius -= damage;
@@ -364,9 +407,12 @@ class Player extends GameObject {
     update() {
 		this.spent_time += this.timedelta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
-            let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
-            let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
-            let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
+            let player = this.playground_root.players[Math.floor(Math.random() * this.playground.players.length)];
+            // 随机选取一名幸运观众
+
+            // 向预判方向发射一枚子弹
+            let tx = player.x + player.speed * this.vx * this.time_delta / 1000 * 0.3;
+            let ty = player.y + player.speed * this.vy * this.time_delta / 1000 * 0.3;
             this.shoot_fireball(tx, ty);
         }
 
@@ -530,11 +576,11 @@ class GamePlayGround {
 		this.game_map = new GameMap(this);                                                                                                                                               23
 
         this.players = [];
-        this.colors = ["blue", "red", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
+        this.colors = ["blue", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
 		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
 
- 	    for (let i = 4; i < 4 + 5; i++) {
+ 	    for (let i = 4; i < 4 + 6; i++) {
             let p_color = this.colors[i];
  	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
         }
