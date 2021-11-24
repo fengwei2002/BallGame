@@ -74,7 +74,7 @@ class GameMenu {
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display="none";
+        this.menu.style.display="display";
     }
 
     hide() {
@@ -570,8 +570,8 @@ class GamePlayGround {
 
 
     start() {
-        //this.hide();
-        this.show();
+        this.hide();
+        // this.show();
 
 		this.game_map = new GameMap(this);                                                                                                                                               23
 

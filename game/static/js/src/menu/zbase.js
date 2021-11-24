@@ -74,7 +74,7 @@ class GameMenu {
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display="none";
+        this.menu.style.display="display";
     }
 
     hide() {
