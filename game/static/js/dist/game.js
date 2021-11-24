@@ -405,9 +405,9 @@ class Player extends GameObject {
 
 
     update() {
-		this.spent_time += this.timedelta / 1000;
+		this.spent_time += this.time_delta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
-            let player = this.playground_root.players[Math.floor(Math.random() * this.playground.players.length)];
+            let player = this.playground_root.players[Math.floor(Math.random() * this.playground_root.players.length)];
             // 随机选取一名幸运观众
 
             // 向预判方向发射一枚子弹
