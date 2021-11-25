@@ -43,12 +43,12 @@ class Player extends GameObject {
     add_listening_events() {
         let outer = this;
 
-        document.oncontextmenu = function(e){
+        document.oncontextmenu = function (e) {
             e.preventDefault();
         };
 
-        document.querySelector(".game-map-canvas").onmousedown = function(e){
-            if (e.button === 2 ) {
+        document.querySelector(".game-map-canvas").onmousedown = function (e) {
+            if (e.button === 2) {
                 // 点了右键 执行移动函数
                 outer.move_to(e.clientX, e.clientY);
             } else if (e.button === 0) {
@@ -68,7 +68,7 @@ class Player extends GameObject {
         // 添加按键事件
         // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/code
 
-        window.addEventListener("keydown", function(event) {
+        window.addEventListener("keydown", function (event) {
             // let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
 
             if (event.code === 'KeyQ') {
@@ -128,7 +128,7 @@ class Player extends GameObject {
 
     move_to(tx, ty) {
         this.move_length = this.get_dist(this.x, this.y, tx, ty);
-        let angle = Math.atan2(ty - this.y, tx - this.x);            // atan2 求角度
+        let angle = Math.atan2(ty - this.y, tx - this.x); // atan2 求角度
         this.vx = Math.cos(angle);
         this.vy = Math.sin(angle);
     }
@@ -145,10 +145,12 @@ class Player extends GameObject {
 
     is_attacked(angle, damage) {
         for (let i = 0; i < 20 + Math.random() * 10; i++) {
-            let x = this.x, y = this.y;
+            let x = this.x,
+                y = this.y;
             let radius = this.radius * Math.random() * 0.1;
             let angle = Math.PI * 2 * Math.random();
-            let vx = Math.cos(angle), vy = Math.sin(angle);
+            let vx = Math.cos(angle),
+                vy = Math.sin(angle);
             let color = this.color;
             let speed = this.speed * 10;
             let move_length = this.radius * Math.random() * 5;
@@ -156,7 +158,7 @@ class Player extends GameObject {
         }
 
         this.radius -= damage;
-        if (this.radius < 10) {  // 被攻击之后，如果像素小于 10， 就将这个玩家删除
+        if (this.radius < 10) { // 被攻击之后，如果像素小于 10， 就将这个玩家删除
             this.destroy();
             return false;
         }
@@ -170,7 +172,7 @@ class Player extends GameObject {
 
 
     update() {
-		this.spent_time += this.time_delta / 1000;
+        this.spent_time += this.time_delta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
             let player = this.playground_root.players[Math.floor(Math.random() * this.playground_root.players.length)];
             // 随机选取一名幸运观众
@@ -212,7 +214,7 @@ class Player extends GameObject {
 
 
 
-    render() {  // 画饼~！
+    render() { // 画饼~！
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;

@@ -16,6 +16,7 @@ body {
     position: fixed;
     height: 100%;
 }
+
 .game-menu {
     position: fixed;
     width: 100%;
@@ -30,14 +31,14 @@ body {
     left: 50%;
     top: 50%;
     margin-left: -200px;
-    margin-top: -77px; 
+    margin-top: -77px;
     width: 400px;
     height: 154px;
     padding: 1rem;
     border-radius: 3rem;
-	background: rgba(255, 255, 255, .3);
-	-webkit-backdrop-filter: blur(10px);
-	backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, .3);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     overflow: hidden;
 }
 
@@ -50,15 +51,16 @@ body {
     border-radius: 3rem;
     margin-bottom: 8px;
 }
+
 .game-menu-item:hover {
     background-color: #9400d3;
     color: white;
     transform: scale(1.1);
     transition: 400ms;
     border-radius: 3rem;
-	background: rgba(148, 0, 211, .1);
-	-webkit-backdrop-filter: blur(10px);
-	backdrop-filter: blur(10px);
+    background: rgba(148, 0, 211, .1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 

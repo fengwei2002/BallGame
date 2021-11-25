@@ -24,11 +24,10 @@ class GameMap extends GameObject {
         this.root.playground.appendChild(this.canvas);
     }
 
-    start() {
-    }
+    start() {}
 
-    update() {           // 实现 GameMap 的每一帧都会调用的 update 函数
-                         // 也就是不停的绘制 canvas 矩形画布
+    update() { // 实现 GameMap 的每一帧都会调用的 update 函数
+        // 也就是不停的绘制 canvas 矩形画布
         this.render();
     }
 

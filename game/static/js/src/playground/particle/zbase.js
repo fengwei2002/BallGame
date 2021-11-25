@@ -17,8 +17,7 @@ class Particle extends GameObject {
         this.eps = 1;
     }
 
-    start() {
-    }
+    start() {}
 
     update() {
         if (this.move_length < this.eps || this.speed < this.eps) {

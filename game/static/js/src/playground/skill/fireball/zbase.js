@@ -49,7 +49,7 @@ class FireBall extends GameObject {
     }
 
 
-	get_dist(x1, y1, x2, y2) {
+    get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
@@ -72,7 +72,7 @@ class FireBall extends GameObject {
 
 
 
-    render() {  // 画小饼~！
+    render() { // 画小饼~！
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;

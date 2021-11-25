@@ -65,21 +65,31 @@ class GameMenu {
             outer.root.playground.show();
         }, false);
 
-        outer.mul.addEventListener("click", () => {console.log("multi")}, false);
-        outer.settings.addEventListener("click", () => {console.log("settings")}, false);
-        outer.author.addEventListener("click", () => {console.log("author")}, false);
-        outer.source.addEventListener("click", () => {console.log("source")}, false);
-        outer.box.addEventListener("click", () => {console.log("box")}, false);
+        outer.mul.addEventListener("click", () => {
+            // console.log("multi")
+        }, false);
+        outer.settings.addEventListener("click", () => {
+            // console.log("settings")
+        }, false);
+        outer.author.addEventListener("click", () => {
+            // console.log("author")
+        }, false);
+        outer.source.addEventListener("click", () => {
+            // console.log("source")
+        }, false);
+        outer.box.addEventListener("click", () => {
+            // console.log("box")
+        }, false);
     }
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display="display";
+        this.menu.style.display = "display";
     }
 
     hide() {
         // 关闭 menu 界面
-        this.menu.style.display="none";
+        this.menu.style.display = "none";
     }
 
 }
@@ -88,14 +98,14 @@ class GameMenu {
 //          对 GAME_OBJECTS 中的所有变量进行逐帧渲染
 //
 
-let GAME_OBJECTS = [];  // 创建一个数组, 数组中的所有物品都要进行渲染更新
+let GAME_OBJECTS = []; // 创建一个数组, 数组中的所有物品都要进行渲染更新
 
 class GameObject {
-    constructor() {     // 每次调用构造函数的时候，就将 this 添加到数组中
+    constructor() { // 每次调用构造函数的时候，就将 this 添加到数组中
         GAME_OBJECTS.push(this);
 
-        this.has_called_start = false;  // 表示是否执行过 start 函数，如果执行过，执行 update，
-                                        // 没执行过执行 start 函数
+        this.has_called_start = false; // 表示是否执行过 start 函数，如果执行过，执行 update，
+        // 没执行过执行 start 函数
 
         this.time_delta = 0;
         // 当前距离上一帧的时间间隔
@@ -130,16 +140,16 @@ class GameObject {
 let last_time_stamp; // 记录上一次的时间戳，这样就可以根据时间来执行动画
 
 
-let GAME_ANIMATION = function(time_stamp) { // 传入时间戳，代表我是哪一个时刻调用的这一个函数
+let GAME_ANIMATION = function (time_stamp) { // 传入时间戳，代表我是哪一个时刻调用的这一个函数
 
     for (let i = 0; i < GAME_OBJECTS.length; i++) {
         let obj = GAME_OBJECTS[i];
 
-        if (!obj.has_called_start) {       // 如果数组中的 某一个元素没有启动的话，进行启动
+        if (!obj.has_called_start) { // 如果数组中的 某一个元素没有启动的话，进行启动
             obj.start();
             obj.has_called_start = true;
-        } else {                           // 如果之前启动过，那么就将当前元素的 time_delta 置为当前的时间戳 减去上一次的时间戳
-                                           // 然后不停的执行 update 函数，相关的 update 函数在继承类中实现
+        } else { // 如果之前启动过，那么就将当前元素的 time_delta 置为当前的时间戳 减去上一次的时间戳
+            // 然后不停的执行 update 函数，相关的 update 函数在继承类中实现
             obj.time_delta = time_stamp - last_time_stamp;
             obj.update();
         }
@@ -150,7 +160,8 @@ let GAME_ANIMATION = function(time_stamp) { // 传入时间戳，代表我是哪
     requestAnimationFrame(GAME_ANIMATION); // 这个函数递归进行调用自己，形成动画
 }
 
-requestAnimationFrame(GAME_ANIMATION); // 在一秒之内调用 60 次这个函数，
+requestAnimationFrame(GAME_ANIMATION);
+// 在一秒之内调用 60 次这个函数，
 // 这是 GameMap 的基类创建 js，GameMap 类从 GameObject 继承而来
 // 功能包含：
 //          在 playground 下添加 canvas 画布
@@ -177,11 +188,10 @@ class GameMap extends GameObject {
         this.root.playground.appendChild(this.canvas);
     }
 
-    start() {
-    }
+    start() {}
 
-    update() {           // 实现 GameMap 的每一帧都会调用的 update 函数
-                         // 也就是不停的绘制 canvas 矩形画布
+    update() { // 实现 GameMap 的每一帧都会调用的 update 函数
+        // 也就是不停的绘制 canvas 矩形画布
         this.render();
     }
 
@@ -209,8 +219,7 @@ class Particle extends GameObject {
         this.eps = 1;
     }
 
-    start() {
-    }
+    start() {}
 
     update() {
         if (this.move_length < this.eps || this.speed < this.eps) {
@@ -278,12 +287,12 @@ class Player extends GameObject {
     add_listening_events() {
         let outer = this;
 
-        document.oncontextmenu = function(e){
+        document.oncontextmenu = function (e) {
             e.preventDefault();
         };
 
-        document.querySelector(".game-map-canvas").onmousedown = function(e){
-            if (e.button === 2 ) {
+        document.querySelector(".game-map-canvas").onmousedown = function (e) {
+            if (e.button === 2) {
                 // 点了右键 执行移动函数
                 outer.move_to(e.clientX, e.clientY);
             } else if (e.button === 0) {
@@ -303,7 +312,7 @@ class Player extends GameObject {
         // 添加按键事件
         // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/code
 
-        window.addEventListener("keydown", function(event) {
+        window.addEventListener("keydown", function (event) {
             // let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
 
             if (event.code === 'KeyQ') {
@@ -363,7 +372,7 @@ class Player extends GameObject {
 
     move_to(tx, ty) {
         this.move_length = this.get_dist(this.x, this.y, tx, ty);
-        let angle = Math.atan2(ty - this.y, tx - this.x);            // atan2 求角度
+        let angle = Math.atan2(ty - this.y, tx - this.x); // atan2 求角度
         this.vx = Math.cos(angle);
         this.vy = Math.sin(angle);
     }
@@ -380,10 +389,12 @@ class Player extends GameObject {
 
     is_attacked(angle, damage) {
         for (let i = 0; i < 20 + Math.random() * 10; i++) {
-            let x = this.x, y = this.y;
+            let x = this.x,
+                y = this.y;
             let radius = this.radius * Math.random() * 0.1;
             let angle = Math.PI * 2 * Math.random();
-            let vx = Math.cos(angle), vy = Math.sin(angle);
+            let vx = Math.cos(angle),
+                vy = Math.sin(angle);
             let color = this.color;
             let speed = this.speed * 10;
             let move_length = this.radius * Math.random() * 5;
@@ -391,7 +402,7 @@ class Player extends GameObject {
         }
 
         this.radius -= damage;
-        if (this.radius < 10) {  // 被攻击之后，如果像素小于 10， 就将这个玩家删除
+        if (this.radius < 10) { // 被攻击之后，如果像素小于 10， 就将这个玩家删除
             this.destroy();
             return false;
         }
@@ -405,7 +416,7 @@ class Player extends GameObject {
 
 
     update() {
-		this.spent_time += this.time_delta / 1000;
+        this.spent_time += this.time_delta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
             let player = this.playground_root.players[Math.floor(Math.random() * this.playground_root.players.length)];
             // 随机选取一名幸运观众
@@ -447,7 +458,7 @@ class Player extends GameObject {
 
 
 
-    render() {  // 画饼~！
+    render() { // 画饼~！
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;
@@ -505,7 +516,7 @@ class FireBall extends GameObject {
     }
 
 
-	get_dist(x1, y1, x2, y2) {
+    get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
@@ -528,7 +539,7 @@ class FireBall extends GameObject {
 
 
 
-    render() {  // 画小饼~！
+    render() { // 画小饼~！
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;
@@ -545,7 +556,7 @@ class FireBall extends GameObject {
 //              添加 AI 玩家，随机颜色
 
 class GamePlayGround {
-   constructor(root) {
+    constructor(root) {
         this.root = root;
 
         this.playground = document.createElement('div');
@@ -573,32 +584,31 @@ class GamePlayGround {
         this.hide();
         // this.show();
 
-		this.game_map = new GameMap(this);                                                                                                                                               23
+        this.game_map = new GameMap(this);
+        23
 
         this.players = [];
         this.colors = ["blue", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
-		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
 
- 	    for (let i = 4; i < 4 + 6; i++) {
+        for (let i = 4; i < 4 + 6; i++) {
             let p_color = this.colors[i];
- 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
+            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
         }
     }
 
     show() { // 展示 playground 页面
-        this.playground.style.display="block";
+        this.playground.style.display = "block";
     }
 
     hide() { // 隐藏 playground 页面
-        this.playground.style.display="none";
+        this.playground.style.display = "none";
     }
 
-    update() {
-    }
+    update() {}
 
-    render() {
-    }
+    render() {}
 }
 // 文件名是 zbase 的原因是因为按照字典序排序的话
 // 这个 js 是总领的 js 文件，
@@ -617,8 +627,9 @@ class Game {
         this.start();
     }
 
-    start() {
-    }
+    start() {}
 }
 
-export {Game}
+export {
+    Game
+}

@@ -15,8 +15,9 @@ class Game {
         this.start();
     }
 
-    start() {
-    }
+    start() {}
 }
 
-export {Game}
+export {
+    Game
+}
