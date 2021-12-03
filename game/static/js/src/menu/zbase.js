@@ -62,7 +62,7 @@ class GameMenu {
         outer.single.addEventListener("click", () => {
             outer.hide();
             // 注意对象的调用层级，outer.root 就是 Game 对象了
-            outer.root.playground.show();
+            outer.root.create_playground(); // 点击开始游戏之后才创建画布对象
         }, false);
 
         outer.mul.addEventListener("click", () => {console.log("multi")}, false);

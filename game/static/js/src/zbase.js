@@ -11,12 +11,17 @@ class Game {
         this.id = id;
         this.game = document.getElementById(id);
         this.menu = new GameMenu(this);
-        this.playground = new GamePlayGround(this);
+        this.playground;
         this.start();
     }
 
     start() {}
+    create_playground() {
+        let outer = this;
+        outer.playground = new GamePlayGround(this);
+    }
 }
+
 
 export {
     Game

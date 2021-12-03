@@ -33,8 +33,8 @@ class GamePlayGround {
 
 
     start() {
-        this.hide();
-        // this.show();
+        // this.hide();
+        this.show();
 
 		this.game_map = new GameMap(this);                                                                                                                                               23
 

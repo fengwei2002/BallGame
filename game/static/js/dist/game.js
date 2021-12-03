@@ -62,34 +62,24 @@ class GameMenu {
         outer.single.addEventListener("click", () => {
             outer.hide();
             // 注意对象的调用层级，outer.root 就是 Game 对象了
-            outer.root.playground.show();
+            outer.root.create_playground(); // 点击开始游戏之后才创建画布对象
         }, false);
 
-        outer.mul.addEventListener("click", () => {
-            // console.log("multi")
-        }, false);
-        outer.settings.addEventListener("click", () => {
-            // console.log("settings")
-        }, false);
-        outer.author.addEventListener("click", () => {
-            // console.log("author")
-        }, false);
-        outer.source.addEventListener("click", () => {
-            // console.log("source")
-        }, false);
-        outer.box.addEventListener("click", () => {
-            // console.log("box")
-        }, false);
+        outer.mul.addEventListener("click", () => {console.log("multi")}, false);
+        outer.settings.addEventListener("click", () => {console.log("settings")}, false);
+        outer.author.addEventListener("click", () => {console.log("author")}, false);
+        outer.source.addEventListener("click", () => {console.log("source")}, false);
+        outer.box.addEventListener("click", () => {console.log("box")}, false);
     }
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display = "display";
+        this.menu.style.display="display";
     }
 
     hide() {
         // 关闭 menu 界面
-        this.menu.style.display = "none";
+        this.menu.style.display="none";
     }
 
 }
@@ -160,9 +150,7 @@ let GAME_ANIMATION = function (time_stamp) { // 传入时间戳，代表我是�
     requestAnimationFrame(GAME_ANIMATION); // 这个函数递归进行调用自己，形成动画
 }
 
-requestAnimationFrame(GAME_ANIMATION);
-// 在一秒之内调用 60 次这个函数，
-// 这是 GameMap 的基类创建 js，GameMap 类从 GameObject 继承而来
+requestAnimationFrame(GAME_ANIMATION); // 在一秒之内调用 60 次这个函数，// 这是 GameMap 的基类创建 js，GameMap 类从 GameObject 继承而来
 // 功能包含：
 //          在 playground 下添加 canvas 画布
 //          将 canvas 画布赋值给成员变量 this.ctx
@@ -199,8 +187,7 @@ class GameMap extends GameObject {
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
-}
-// 粒子特效类：，相当于释放一周，同颜色的，没有伤害的随机球
+}// 粒子特效类：，相当于释放一周，同颜色的，没有伤害的随机球
 
 class Particle extends GameObject {
     constructor(playground_root, x, y, radius, vx, vy, color, speed, move_length) {
@@ -241,8 +228,7 @@ class Particle extends GameObject {
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
     }
-}
-class Player extends GameObject {
+}class Player extends GameObject {
     constructor(playground_root, x, y, radius, color, speed, is_me) {
         super();
 
@@ -325,22 +311,22 @@ class Player extends GameObject {
 
             if (event.code === 'ArrowUp') {
                 console.log('u')
-                outer_this.x = outer_this.x + 1;
+                outer.move_to(outer.x, outer.y -= 3);
             }
 
             if (event.code === 'ArrowDown') {
                 console.log('d')
-                move_to(this.x, this.y + 10);
+                outer.move_to(outer.x, outer.y += 3);
             }
 
             if (event.code === 'ArrowLeft') {
                 console.log('L');
-                move_to(this.x - 10, this.y);
+                outer.move_to(outer.x -= 3, outer.y);
             }
 
             if (event.code === 'ArrowRight') {
                 console.log('R')
-                move_to(this.x + 10, this.y);
+                outer.move_to(outer.x += 3, outer.y);
             }
 
         }, true);
@@ -382,7 +368,7 @@ class Player extends GameObject {
     get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
-        return Math.sqrt(dx * dx, dy * dy);
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
 
@@ -424,7 +410,7 @@ class Player extends GameObject {
             // 向预判方向发射一枚子弹
             let tx = player.x + player.speed * this.vx * this.time_delta / 1000 * 0.3;
             let ty = player.y + player.speed * this.vy * this.time_delta / 1000 * 0.3;
-            this.shoot_fireball(tx, ty);
+            // this.shoot_fireball(tx, ty);
         }
 
         if (this.damage_speed > 10) { // 伤害导致的位移优先
@@ -545,8 +531,7 @@ class FireBall extends GameObject {
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
     }
-}
-// 这是 playground 的总 js 入口
+}// 这是 playground 的总 js 入口
 // 功能包含：
 //          创建 div class="game-playground"，将这个 playground 容器添加到 root.game
 //          保存总窗口的 宽度，高度 到成员变量
@@ -556,7 +541,7 @@ class FireBall extends GameObject {
 //              添加 AI 玩家，随机颜色
 
 class GamePlayGround {
-    constructor(root) {
+   constructor(root) {
         this.root = root;
 
         this.playground = document.createElement('div');
@@ -581,34 +566,35 @@ class GamePlayGround {
 
 
     start() {
-        this.hide();
-        // this.show();
+        // this.hide();
+        this.show();
 
-        this.game_map = new GameMap(this);
-        23
+		this.game_map = new GameMap(this);                                                                                                                                               23
 
         this.players = [];
         this.colors = ["blue", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
-        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
+		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
 
-        for (let i = 4; i < 4 + 6; i++) {
+ 	    for (let i = 4; i < 4 + 6; i++) {
             let p_color = this.colors[i];
-            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
+ 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
         }
     }
 
     show() { // 展示 playground 页面
-        this.playground.style.display = "block";
+        this.playground.style.display="block";
     }
 
     hide() { // 隐藏 playground 页面
-        this.playground.style.display = "none";
+        this.playground.style.display="none";
     }
 
-    update() {}
+    update() {
+    }
 
-    render() {}
+    render() {
+    }
 }
 // 文件名是 zbase 的原因是因为按照字典序排序的话
 // 这个 js 是总领的 js 文件，
@@ -623,12 +609,17 @@ class Game {
         this.id = id;
         this.game = document.getElementById(id);
         this.menu = new GameMenu(this);
-        this.playground = new GamePlayGround(this);
+        this.playground;
         this.start();
     }
 
     start() {}
+    create_playground() {
+        let outer = this;
+        outer.playground = new GamePlayGround(this);
+    }
 }
+
 
 export {
     Game

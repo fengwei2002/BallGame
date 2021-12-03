@@ -81,22 +81,22 @@ class Player extends GameObject {
 
             if (event.code === 'ArrowUp') {
                 console.log('u')
-                outer_this.x = outer_this.x + 1;
+                outer.move_to(outer.x, outer.y -= 3);
             }
 
             if (event.code === 'ArrowDown') {
                 console.log('d')
-                move_to(this.x, this.y + 10);
+                outer.move_to(outer.x, outer.y += 3);
             }
 
             if (event.code === 'ArrowLeft') {
                 console.log('L');
-                move_to(this.x - 10, this.y);
+                outer.move_to(outer.x -= 3, outer.y);
             }
 
             if (event.code === 'ArrowRight') {
                 console.log('R')
-                move_to(this.x + 10, this.y);
+                outer.move_to(outer.x += 3, outer.y);
             }
 
         }, true);
@@ -138,7 +138,7 @@ class Player extends GameObject {
     get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
-        return Math.sqrt(dx * dx, dy * dy);
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
 
@@ -180,7 +180,7 @@ class Player extends GameObject {
             // 向预判方向发射一枚子弹
             let tx = player.x + player.speed * this.vx * this.time_delta / 1000 * 0.3;
             let ty = player.y + player.speed * this.vy * this.time_delta / 1000 * 0.3;
-            this.shoot_fireball(tx, ty);
+            // this.shoot_fireball(tx, ty);
         }
 
         if (this.damage_speed > 10) { // 伤害导致的位移优先
