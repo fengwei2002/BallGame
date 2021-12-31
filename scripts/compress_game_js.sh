@@ -6,5 +6,6 @@ JS_PATH_SRC=${JS_PATH}src/
 
 # compress src/*.js to dist/final.js
 
-
 find $JS_PATH_SRC -type f -name '*.js' | sort | xargs cat > ${JS_PATH_DIST}game.js
+
+echo yes | python3 manage.py collectstatic
