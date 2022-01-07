@@ -14,9 +14,11 @@ class GameMap extends GameObject {
         this.canvas.innerHTML = ``;
 
         const rect = this.canvas.getBoundingClientRect();
+        // rect 得到当前的盒子左边界距离浏览器的左上方的距离
 
-        this.canvas.width = root.width - 2 * rect.left;
-        this.canvas.height = root.height - 2 * rect.top;
+        this.canvas.width = root.width;
+        this.canvas.height = root.height;
+        // 为了实现自适应，所以 root 的 height 和 width 就需要进行自适应[
 
         // 注意这里使用原生 JS 创建 canvas 的时候必须指定长度和宽度，而不是使用 css 指定长度和宽度
         // 否则就会出现距离比例不匹配的问题，

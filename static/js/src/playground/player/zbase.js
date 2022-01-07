@@ -205,7 +205,7 @@ class Player extends GameObject {
                     // 一停下来一鞭子抽上去！
                     let tx = Math.random() * this.playground_root.width;
                     let ty = Math.random() * this.playground_root.height;
-                    this.move_to(tx, ty);
+                    // this.move_to(tx, ty);
                 }
             } else {
                 let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);

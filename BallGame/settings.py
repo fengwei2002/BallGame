@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ak^@#(74c7lo^*2(_^v87u^t#_9o%)hj_-@4)xpy-qmvl-)!ux
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
+# 更改之后，前端显示就是具体错误而不是 500 error 
 
 # 将公网 IP 添加到 ALLOWED_HOSTS 中，然后就可以在在浏览器中访问了
 # python3 manage.py runserver 0.0.0.0:8080
