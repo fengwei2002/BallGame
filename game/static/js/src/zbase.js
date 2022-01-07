@@ -6,8 +6,10 @@
 //
 
 class Game {
-    constructor(id) {
+    constructor(id, AcWingOS) {
         // js 中的构造函数
+        this.AcWingOS = AcWingOS;
+
         this.id = id;
         this.game = document.getElementById(id);
         this.menu = new GameMenu(this);
