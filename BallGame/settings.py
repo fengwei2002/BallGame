@@ -32,6 +32,8 @@ DEBUG = True
 # python3 manage.py runserver 0.0.0.0:8080
 
 ALLOWED_HOSTS = ["101.43.32.9", "app786.acapp.acwing.com.cn"]
+# CORS_ORIGIN_WHITELIST = ( '101.43.32.9', 'app786.acapp.acwing.com.cn' )
+
 
 
 # Application definition
@@ -39,7 +41,7 @@ ALLOWED_HOSTS = ["101.43.32.9", "app786.acapp.acwing.com.cn"]
 # 添加 app 到总 setting 中
 INSTALLED_APPS = [
     'game.apps.GameConfig', # game 中的 apps.py 文件
-
+    # 'corsheaders', # 允许跨域请求
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

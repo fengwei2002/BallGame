@@ -51,7 +51,9 @@ class GameMenu {
 
     start() {
         this.add_listening_events();
-        this.show();
+        // this.show();
+        this.hide();
+        // 因为需要优先展示登录界面，所以这里先隐藏掉 menu
     }
 
 
@@ -65,21 +67,20 @@ class GameMenu {
             outer.root.create_playground(); // 点击开始游戏之后才创建画布对象
         }, false);
 
-        outer.mul.addEventListener("click", () => {console.log("multi")}, false);
-        outer.settings.addEventListener("click", () => {console.log("settings")}, false);
-        outer.author.addEventListener("click", () => {console.log("author")}, false);
-        outer.source.addEventListener("click", () => {console.log("source")}, false);
-        outer.box.addEventListener("click", () => {console.log("box")}, false);
+        outer.mul.addEventListener("click", () => { console.log("multi") }, false);
+        outer.settings.addEventListener("click", () => { console.log("settings") }, false);
+        outer.author.addEventListener("click", () => { console.log("author") }, false);
+        outer.source.addEventListener("click", () => { console.log("source") }, false);
+        outer.box.addEventListener("click", () => { console.log("box") }, false);
     }
 
     show() {
         // 展示 menu 界面
-        this.menu.style.display="display";
+        this.menu.style.display = "display";
     }
 
     hide() {
         // 关闭 menu 界面
-        this.menu.style.display="none";
+        this.menu.style.display = "none";
     }
-
 }

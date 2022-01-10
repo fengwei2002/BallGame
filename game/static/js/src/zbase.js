@@ -9,15 +9,19 @@ class Game {
     constructor(id, AcWingOS) {
         // js 中的构造函数
         this.AcWingOS = AcWingOS;
+        // 用来判断是在哪一个平台执行的代码
 
         this.id = id;
         this.game = document.getElementById(id);
+
+        this.settings = new Settings(this);
+
         this.menu = new GameMenu(this);
         this.playground;
         this.start();
     }
 
-    start() {}
+    start() { }
     create_playground() {
         let outer = this;
         outer.playground = new GamePlayGround(this);

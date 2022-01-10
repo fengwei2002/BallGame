@@ -12,7 +12,7 @@ def get_info_web(request):
     player = Player.objects.all()[0]
     return JsonResponse({
         'result': "success",
-        'paltfrom': "pla",
+        'paltfrom': "WEB",
         'username': player.user.username,
         'photo': player.photo,
     })
