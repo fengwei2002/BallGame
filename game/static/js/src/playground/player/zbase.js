@@ -1,5 +1,5 @@
 class Player extends GameObject {
-    constructor(playground_root, x, y, radius, color, speed, is_me) {
+    constructor(game_root, playground_root, x, y, radius, color, speed, is_me) {
         super();
 
         this.playground_root = playground_root;
@@ -25,6 +25,13 @@ class Player extends GameObject {
         this.spent_time = 0;
 
         this.cur_skill = null;
+
+        this.game_root = game_root;
+        if (this.is_me) {
+            this.img = new Image();
+            this.img.src = "https://cdn.acwing.com/media/article/image/2021/11/18/1_ea3d5e7448-logo64x64_2.png";
+            console.log(this.game_root.settings.photo)
+        }
     }
 
 
@@ -81,29 +88,29 @@ class Player extends GameObject {
                 outer.cur_skill = "fireball";
             }
 
-            if (event.code === 'Space') {
-                console.log('space')
-            }
+            // if (event.code === 'Space') {
+            //     console.log('space')
+            // }
 
-            if (event.code === 'ArrowUp') {
-                console.log('u')
-                outer.move_to(outer.x, outer.y -= 3);
-            }
+            // if (event.code === 'ArrowUp') {
+            //     console.log('u')
+            //     outer.move_to(outer.x, outer.y -= 3);
+            // }
 
-            if (event.code === 'ArrowDown') {
-                console.log('d')
-                outer.move_to(outer.x, outer.y += 3);
-            }
+            // if (event.code === 'ArrowDown') {
+            //     console.log('d')
+            //     outer.move_to(outer.x, outer.y += 3);
+            // }
 
-            if (event.code === 'ArrowLeft') {
-                console.log('L');
-                outer.move_to(outer.x -= 3, outer.y);
-            }
+            // if (event.code === 'ArrowLeft') {
+            //     console.log('L');
+            //     outer.move_to(outer.x -= 3, outer.y);
+            // }
 
-            if (event.code === 'ArrowRight') {
-                console.log('R')
-                outer.move_to(outer.x += 3, outer.y);
-            }
+            // if (event.code === 'ArrowRight') {
+            //     console.log('R')
+            //     outer.move_to(outer.x += 3, outer.y);
+            // }
 
         }, true);
     }
@@ -221,9 +228,20 @@ class Player extends GameObject {
 
 
     render() { // 画饼~！
-        this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        if (this.is_me) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.stroke();
+            this.ctx.clip();
+            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            this.ctx.restore();
+        } else {
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.fillStyle = this.color;
+            this.ctx.fill();
+        }
+
     }
 }

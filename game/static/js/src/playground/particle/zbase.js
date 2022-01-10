@@ -3,8 +3,9 @@
 class Particle extends GameObject {
     constructor(playground_root, x, y, radius, vx, vy, color, speed, move_length) {
         super();
-        this.playground = playground_root;
-        this.ctx = this.playground.game_map.ctx;
+        this.playground_root = playground_root;
+        this.ctx = this.playground_root.game_map.ctx;
+        
         this.x = x;
         this.y = y;
         this.radius = radius;

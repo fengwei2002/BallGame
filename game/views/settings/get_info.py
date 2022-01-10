@@ -9,14 +9,19 @@ def get_info_acapp(request):
 
 
 def get_info_web(request):
-    player = Player.objects.all()[0]
-    return JsonResponse({
-        'result': "success",
-        'paltfrom': "WEB",
-        'username': player.user.username,
-        'photo': player.photo,
-    })
-
+    user = request.user
+    if not user.is_authenticated:
+        return JsonResponse({
+            'result': "have_not_sign_in "
+        })
+    else:
+        player = Player.objects.all()[0]
+        return JsonResponse({
+            'result': "success",
+            'paltfrom': "WEB",
+            'username': player.user.username,
+            'photo': player.photo,
+        })
 
 
 def get_info(request):

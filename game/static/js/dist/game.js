@@ -6,9 +6,9 @@
 //          将新创建的 menu 对象加入到 root.game 下面，根据 display 控制元素是否显示
 
 class GameMenu {
-    constructor(root) {
+    constructor(game_root) {
         // 传入的 root 就相当于 web.html 中定义的 Game 对象
-        this.root = root;
+        this.game_root = game_root;
 
         this.menu = document.createElement('div');
         this.menu.className = 'game-menu';
@@ -44,15 +44,15 @@ class GameMenu {
         this.source = this.menu.querySelector('.game-menu-item-source');
         this.box = this.menu.querySelector('.game-menu-background-box');
 
-        this.root.game.appendChild(this.menu);
+        this.game_root.game.appendChild(this.menu);
 
         this.start();
     }
 
     start() {
         this.add_listening_events();
-        // this.show();
-        this.hide();
+        this.show();
+        // this.hide();
         // 因为需要优先展示登录界面，所以这里先隐藏掉 menu
     }
 
@@ -64,7 +64,7 @@ class GameMenu {
         outer.single.addEventListener("click", () => {
             outer.hide();
             // 注意对象的调用层级，outer.root 就是 Game 对象了
-            outer.root.create_playground(); // 点击开始游戏之后才创建画布对象
+            outer.game_root.create_playground(); // 点击开始游戏之后才创建画布对象
         }, false);
 
         outer.mul.addEventListener("click", () => { console.log("multi") }, false);
@@ -158,9 +158,9 @@ requestAnimationFrame(GAME_ANIMATION); // 在一秒之内调用 60 次这个函�
 
 
 class GameMap extends GameObject {
-    constructor(root) {
+    constructor(playground_root) {
         super();
-        this.root = root;
+        this.playground_root = playground_root;
 
         this.canvas = document.createElement('canvas');
         this.canvas.className = 'game-map-canvas';
@@ -169,8 +169,8 @@ class GameMap extends GameObject {
         const rect = this.canvas.getBoundingClientRect();
         // rect 得到当前的盒子左边界距离浏览器的左上方的距离
 
-        this.canvas.width = root.width;
-        this.canvas.height = root.height;
+        this.canvas.width = playground_root.width;
+        this.canvas.height = playground_root.height;
         // 为了实现自适应，所以 root 的 height 和 width 就需要进行自适应[
 
         // 注意这里使用原生 JS 创建 canvas 的时候必须指定长度和宽度，而不是使用 css 指定长度和宽度
@@ -179,7 +179,7 @@ class GameMap extends GameObject {
         // 距离范围也会缩小到 300 * 150 下！！！！！！！！！！！！
 
         this.ctx = this.canvas.getContext('2d');
-        this.root.playground.appendChild(this.canvas);
+        this.playground_root.playground.appendChild(this.canvas);
     }
 
     start() {}
@@ -199,8 +199,9 @@ class GameMap extends GameObject {
 class Particle extends GameObject {
     constructor(playground_root, x, y, radius, vx, vy, color, speed, move_length) {
         super();
-        this.playground = playground_root;
-        this.ctx = this.playground.game_map.ctx;
+        this.playground_root = playground_root;
+        this.ctx = this.playground_root.game_map.ctx;
+        
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -236,7 +237,7 @@ class Particle extends GameObject {
         this.ctx.fill();
     }
 }class Player extends GameObject {
-    constructor(playground_root, x, y, radius, color, speed, is_me) {
+    constructor(game_root, playground_root, x, y, radius, color, speed, is_me) {
         super();
 
         this.playground_root = playground_root;
@@ -262,6 +263,13 @@ class Particle extends GameObject {
         this.spent_time = 0;
 
         this.cur_skill = null;
+
+        this.game_root = game_root;
+        if (this.is_me) {
+            this.img = new Image();
+            this.img.src = "https://cdn.acwing.com/media/article/image/2021/11/18/1_ea3d5e7448-logo64x64_2.png";
+            console.log(this.game_root.settings.photo)
+        }
     }
 
 
@@ -318,29 +326,29 @@ class Particle extends GameObject {
                 outer.cur_skill = "fireball";
             }
 
-            if (event.code === 'Space') {
-                console.log('space')
-            }
+            // if (event.code === 'Space') {
+            //     console.log('space')
+            // }
 
-            if (event.code === 'ArrowUp') {
-                console.log('u')
-                outer.move_to(outer.x, outer.y -= 3);
-            }
+            // if (event.code === 'ArrowUp') {
+            //     console.log('u')
+            //     outer.move_to(outer.x, outer.y -= 3);
+            // }
 
-            if (event.code === 'ArrowDown') {
-                console.log('d')
-                outer.move_to(outer.x, outer.y += 3);
-            }
+            // if (event.code === 'ArrowDown') {
+            //     console.log('d')
+            //     outer.move_to(outer.x, outer.y += 3);
+            // }
 
-            if (event.code === 'ArrowLeft') {
-                console.log('L');
-                outer.move_to(outer.x -= 3, outer.y);
-            }
+            // if (event.code === 'ArrowLeft') {
+            //     console.log('L');
+            //     outer.move_to(outer.x -= 3, outer.y);
+            // }
 
-            if (event.code === 'ArrowRight') {
-                console.log('R')
-                outer.move_to(outer.x += 3, outer.y);
-            }
+            // if (event.code === 'ArrowRight') {
+            //     console.log('R')
+            //     outer.move_to(outer.x += 3, outer.y);
+            // }
 
         }, true);
     }
@@ -458,10 +466,21 @@ class Particle extends GameObject {
 
 
     render() { // 画饼~！
-        this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        if (this.is_me) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.stroke();
+            this.ctx.clip();
+            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            this.ctx.restore();
+        } else {
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.ctx.fillStyle = this.color;
+            this.ctx.fill();
+        }
+
     }
 }
 // 火球对象， 构建之后获得一个移动的火球
@@ -554,14 +573,14 @@ class FireBall extends GameObject {
 //              添加 AI 玩家，随机颜色
 
 class GamePlayGround {
-   constructor(root) {
-        this.root = root;
+    constructor(game_root) {
+        this.game_root = game_root;
 
         this.playground = document.createElement('div');
         this.playground.className = 'game-playground';
         this.playground.innerHTML = ``;
 
-        this.root.game.appendChild(this.playground);
+        this.game_root.game.appendChild(this.playground);
 
         // 由于 width 的 height 会经常用到，所以这里读出
         this.width = this.playground.clientWidth;
@@ -582,25 +601,25 @@ class GamePlayGround {
         // this.hide();
         this.show();
 
-		this.game_map = new GameMap(this);                                                                                                                                               23
+        this.game_map = new GameMap(this);
 
         this.players = [];
         this.colors = ["blue", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
         //playground_root, x, y, radius, color, speed, is_me
-		this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
+        this.players.push(new Player(this.game_root, this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
 
- 	    for (let i = 4; i < 4 + 6; i++) {
+        for (let i = 4; i < 4 + 6; i++) {
             let p_color = this.colors[i];
- 	        this.players.push(new Player(this, this.width / 2,  this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
+            this.players.push(new Player(this.game_root, this, this.width / 2, this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
         }
     }
 
     show() { // 展示 playground 页面
-        this.playground.style.display="block";
+        this.playground.style.display = "block";
     }
 
     hide() { // 隐藏 playground 页面
-        this.playground.style.display="none";
+        this.playground.style.display = "none";
     }
 
     update() {
@@ -610,19 +629,19 @@ class GamePlayGround {
     }
 }
 class Settings {
-    constructor(root) {
-        this.playground_root = root;
+    constructor(game_root) {
+        this.game_root = game_root;
         this.platform = "WEB";
-        if (this.playground_root.AcWingOs) this.platform = "ACAPP";
+        if (this.game_root.AcWingOS) this.platform = "ACAPP";
 
-        this.photo = new Image();
-        this.photo.src = "";
+        this.username = "no_user";
+        this.photo = "no_photo";
 
         this.start();
     }
 
     start() {
-        this.get_info();
+        this.get_info(this.game_root);
     }
 
     register() {
@@ -633,63 +652,18 @@ class Settings {
 
     }
 
-    get_info() {
-        let outer = this;
-        // fetch('https://app786.acapp.acwing.com.cn/settings/get_info/', {
-        //     method: 'POST',
-        //     body: {
-        //         platform: outer.platform
-        //     },
-        //     // 使用 fetch api 会出现 403 forbid
-        //     credentials: "same-origin",
-        //     headers: {
-        //         "X-CSRFToken": getCookie("csrftoken"),
-        //         "Accept": "application/json",
-        //         'Content-Type': 'application/json'
-        //     },
-        // }).then((response) => {
-        //     console.log(response.json());
-        // });
+    // TODO fetch api 实现
+    // TODO 使用 XMLHttp 请求库实现对象的具体赋值。。。。。
+    get_info(game_root) {
 
-        // // 通过 header 中添加 csrf 验证解决
-        // function getCookie(name) {
-        //     var cookieValue = null;
-        //     if (document.cookie && document.cookie !== '') {
-        //         var cookies = document.cookie.split(';');
-        //         for (var i = 0; i < cookies.length; i++) {
-        //             var cookie = jQuery.trim(cookies[i]);
-        //             // Does this cookie string begin with the name we want?
-        //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     return cookieValue;
-        // }
-
-        // 使用 XMLHttp 请求库实现
-        let xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "https://app786.acapp.acwing.com.cn/settings/get_info/?platform=WEB", true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function () {
-            //判断readyState就绪状态是否为4，判断status响应状态码是否为200
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                //获取服务器的响应结果
-                let responseText = xmlhttp.responseText;
-                alert(responseText);
-                let finalJson = JSON.stringify(responseText)
-                console.log(finalJson)
-            }
-        }
     }
 
     hide() {
-
+        console.log("outer hide")
     }
 
     show() {
-
+        console.log("outer show")
     }
 }// 文件名是 zbase 的原因是因为按照字典序排序的话
 // 这个 js 是总领的 js 文件，

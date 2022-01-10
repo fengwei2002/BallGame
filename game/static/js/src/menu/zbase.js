@@ -6,9 +6,9 @@
 //          将新创建的 menu 对象加入到 root.game 下面，根据 display 控制元素是否显示
 
 class GameMenu {
-    constructor(root) {
+    constructor(game_root) {
         // 传入的 root 就相当于 web.html 中定义的 Game 对象
-        this.root = root;
+        this.game_root = game_root;
 
         this.menu = document.createElement('div');
         this.menu.className = 'game-menu';
@@ -44,15 +44,15 @@ class GameMenu {
         this.source = this.menu.querySelector('.game-menu-item-source');
         this.box = this.menu.querySelector('.game-menu-background-box');
 
-        this.root.game.appendChild(this.menu);
+        this.game_root.game.appendChild(this.menu);
 
         this.start();
     }
 
     start() {
         this.add_listening_events();
-        // this.show();
-        this.hide();
+        this.show();
+        // this.hide();
         // 因为需要优先展示登录界面，所以这里先隐藏掉 menu
     }
 
@@ -64,7 +64,7 @@ class GameMenu {
         outer.single.addEventListener("click", () => {
             outer.hide();
             // 注意对象的调用层级，outer.root 就是 Game 对象了
-            outer.root.create_playground(); // 点击开始游戏之后才创建画布对象
+            outer.game_root.create_playground(); // 点击开始游戏之后才创建画布对象
         }, false);
 
         outer.mul.addEventListener("click", () => { console.log("multi") }, false);
