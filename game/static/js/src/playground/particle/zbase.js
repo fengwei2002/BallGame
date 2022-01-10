@@ -1,11 +1,21 @@
 // 粒子特效类：，相当于释放一周，同颜色的，没有伤害的随机球
 
 class Particle extends GameObject {
-    constructor(playground_root, x, y, radius, vx, vy, color, speed, move_length) {
+    constructor(
+        playground_root,
+        x,
+        y,
+        radius,
+        vx,
+        vy,
+        color,
+        speed,
+        move_length
+    ) {
         super();
         this.playground_root = playground_root;
         this.ctx = this.playground_root.game_map.ctx;
-        
+
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -26,7 +36,10 @@ class Particle extends GameObject {
             return false;
         }
 
-        let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
+        let moved = Math.min(
+            this.move_length,
+            (this.speed * this.time_delta) / 1000
+        );
         this.x += this.vx * moved;
         this.y += this.vy * moved;
         this.speed *= this.friction;

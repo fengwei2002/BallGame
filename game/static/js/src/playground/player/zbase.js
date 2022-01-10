@@ -29,11 +29,9 @@ class Player extends GameObject {
         this.game_root = game_root;
         if (this.is_me) {
             this.img = new Image();
-            this.img.src = "https://cdn.acwing.com/media/article/image/2021/11/18/1_ea3d5e7448-logo64x64_2.png";
-            console.log(this.game_root.settings.photo)
+            this.img.src = this.game_root.settings.photo;
         }
     }
-
 
     start() {
         if (this.is_me) {
@@ -44,8 +42,6 @@ class Player extends GameObject {
             this.move_to(tx, ty);
         }
     }
-
-
 
     add_listening_events() {
         let outer = this;
@@ -64,59 +60,60 @@ class Player extends GameObject {
             } else if (e.button === 0) {
                 // 点了左键 执行发射函数
 
-                if (outer.cur_skill === 'fireball') {
+                if (outer.cur_skill === "fireball") {
                     // outer.shoot_fireball(e.clientX, e.clientY);
                     // clientx clienty 是窗口中的绝对坐标，需要映射到新的坐标系中
-                    outer.shoot_fireball(e.clientX - rect.left, e.clientY - rect.top);
+                    outer.shoot_fireball(
+                        e.clientX - rect.left,
+                        e.clientY - rect.top
+                    );
                 }
 
                 outer.cur_skill = null;
             } else if (e.button === 1) {
                 // alert("你点了滚轮");
             }
-        }
-
-
+        };
 
         // 添加按键事件
         // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/code
 
-        window.addEventListener("keydown", function (event) {
-            // let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
+        window.addEventListener(
+            "keydown",
+            function (event) {
+                // let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
 
-            if (event.code === 'KeyQ') {
-                outer.cur_skill = "fireball";
-            }
+                if (event.code === "KeyQ") {
+                    outer.cur_skill = "fireball";
+                }
 
-            // if (event.code === 'Space') {
-            //     console.log('space')
-            // }
+                // if (event.code === 'Space') {
+                //     console.log('space')
+                // }
 
-            // if (event.code === 'ArrowUp') {
-            //     console.log('u')
-            //     outer.move_to(outer.x, outer.y -= 3);
-            // }
+                // if (event.code === 'ArrowUp') {
+                //     console.log('u')
+                //     outer.move_to(outer.x, outer.y -= 3);
+                // }
 
-            // if (event.code === 'ArrowDown') {
-            //     console.log('d')
-            //     outer.move_to(outer.x, outer.y += 3);
-            // }
+                // if (event.code === 'ArrowDown') {
+                //     console.log('d')
+                //     outer.move_to(outer.x, outer.y += 3);
+                // }
 
-            // if (event.code === 'ArrowLeft') {
-            //     console.log('L');
-            //     outer.move_to(outer.x -= 3, outer.y);
-            // }
+                // if (event.code === 'ArrowLeft') {
+                //     console.log('L');
+                //     outer.move_to(outer.x -= 3, outer.y);
+                // }
 
-            // if (event.code === 'ArrowRight') {
-            //     console.log('R')
-            //     outer.move_to(outer.x += 3, outer.y);
-            // }
-
-        }, true);
+                // if (event.code === 'ArrowRight') {
+                //     console.log('R')
+                //     outer.move_to(outer.x += 3, outer.y);
+                // }
+            },
+            true
+        );
     }
-
-
-
 
     shoot_fireball(fire_tx, fire_ty) {
         let begin_x = this.x;
@@ -134,10 +131,20 @@ class Player extends GameObject {
         let move_length = this.playground_root.height * 0.5;
 
         // playground_root, player, x, y, radius, vx, vy, color, speed, move_length
-        new FireBall(this.playground_root, this, begin_x, begin_y, fire_radius * 0.8, vx, vy, color, speed * 1.1, move_length * 1.3, this.playground_root.height * 0.01); // 每次打玩家 20 % 血量
+        new FireBall(
+            this.playground_root,
+            this,
+            begin_x,
+            begin_y,
+            fire_radius * 0.8,
+            vx,
+            vy,
+            color,
+            speed * 1.1,
+            move_length * 1.3,
+            this.playground_root.height * 0.01
+        ); // 每次打玩家 20 % 血量
     }
-
-
 
     move_to(tx, ty) {
         this.move_length = this.get_dist(this.x, this.y, tx, ty);
@@ -146,15 +153,11 @@ class Player extends GameObject {
         this.vy = Math.sin(angle);
     }
 
-
-
     get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
     }
-
-
 
     is_attacked(angle, damage) {
         for (let i = 0; i < 20 + Math.random() * 10; i++) {
@@ -167,11 +170,22 @@ class Player extends GameObject {
             let color = this.color;
             let speed = this.speed * 10;
             let move_length = this.radius * Math.random() * 5;
-            new Particle(this.playground_root, x, y, radius, vx, vy, color, speed, move_length);
+            new Particle(
+                this.playground_root,
+                x,
+                y,
+                radius,
+                vx,
+                vy,
+                color,
+                speed,
+                move_length
+            );
         }
 
         this.radius -= damage;
-        if (this.radius < 10) { // 被攻击之后，如果像素小于 10， 就将这个玩家删除
+        if (this.radius < 10) {
+            // 被攻击之后，如果像素小于 10， 就将这个玩家删除
             this.destroy();
             return false;
         }
@@ -182,25 +196,35 @@ class Player extends GameObject {
         this.speed *= 0.8;
     }
 
-
-
     update() {
         this.spent_time += this.time_delta / 1000;
         if (!this.is_me && this.spent_time > 4 && Math.random() < 1 / 300.0) {
-            let player = this.playground_root.players[Math.floor(Math.random() * this.playground_root.players.length)];
+            let player =
+                this.playground_root.players[
+                    Math.floor(
+                        Math.random() * this.playground_root.players.length
+                    )
+                ];
             // 随机选取一名幸运观众
 
             // 向预判方向发射一枚子弹
-            let tx = player.x + player.speed * this.vx * this.time_delta / 1000 * 0.3;
-            let ty = player.y + player.speed * this.vy * this.time_delta / 1000 * 0.3;
+            let tx =
+                player.x +
+                ((player.speed * this.vx * this.time_delta) / 1000) * 0.3;
+            let ty =
+                player.y +
+                ((player.speed * this.vy * this.time_delta) / 1000) * 0.3;
             // this.shoot_fireball(tx, ty);
         }
 
-        if (this.damage_speed > 10) { // 伤害导致的位移优先
+        if (this.damage_speed > 10) {
+            // 伤害导致的位移优先
             this.vx = this.vy = 0;
             this.move_length = 0;
-            this.x += this.damage_x * this.damage_speed * this.time_delta / 1000;
-            this.y += this.damage_y * this.damage_speed * this.time_delta / 1000;
+            this.x +=
+                (this.damage_x * this.damage_speed * this.time_delta) / 1000;
+            this.y +=
+                (this.damage_y * this.damage_speed * this.time_delta) / 1000;
             this.damage_speed *= this.friction;
         } else {
             if (this.move_length < this.eps) {
@@ -215,7 +239,10 @@ class Player extends GameObject {
                     // this.move_to(tx, ty);
                 }
             } else {
-                let moved = Math.min(this.move_length, this.speed * this.time_delta / 1000);
+                let moved = Math.min(
+                    this.move_length,
+                    (this.speed * this.time_delta) / 1000
+                );
                 this.x += this.vx * moved;
                 this.y += this.vy * moved;
                 this.move_length -= moved;
@@ -225,16 +252,21 @@ class Player extends GameObject {
         this.render();
     }
 
-
-
-    render() { // 画饼~！
+    render() {
+        // 画饼~！
         if (this.is_me) {
             this.ctx.save();
             this.ctx.beginPath();
             this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             this.ctx.stroke();
             this.ctx.clip();
-            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            this.ctx.drawImage(
+                this.img,
+                this.x - this.radius,
+                this.y - this.radius,
+                this.radius * 2,
+                this.radius * 2
+            );
             this.ctx.restore();
         } else {
             this.ctx.beginPath();
@@ -242,6 +274,5 @@ class Player extends GameObject {
             this.ctx.fillStyle = this.color;
             this.ctx.fill();
         }
-
     }
 }

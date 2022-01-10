@@ -633,9 +633,12 @@ class Settings {
         this.game_root = game_root;
         this.platform = "WEB";
         if (this.game_root.AcWingOS) this.platform = "ACAPP";
-
         this.username = "no_user";
         this.photo = "no_photo";
+
+        this.settings_box = $(`<h1> hhhh <h1/>`);
+        this.login_box = $(`<div>login </div>`);
+        this.register_box = $(`<div> register </div>`);
 
         this.start();
     }
@@ -644,28 +647,48 @@ class Settings {
         this.get_info(this.game_root);
     }
 
-    register() {
-
-    }
+    register() {}
 
     login() {
-
+        this.register_box.hide();
+        this.login_box.show();
     }
 
     // TODO fetch api 实现
     // TODO 使用 XMLHttp 请求库实现对象的具体赋值。。。。。
-    get_info(game_root) {
+    get_info() {
+        let outer = this;
 
+        $.ajax({
+            url: "https://app786.acapp.acwing.com.cn/settings/get_info/",
+            type: "GET",
+            data: {
+                platform: outer.platform,
+            },
+            success: function (resp) {
+                if (resp.result === "success") {
+                    console.log(resp);
+                    outer.username = resp.username;
+                    outer.photo = resp.photo;
+                    outer.hide();
+                    outer.game_root.menu.show();
+                } else {
+                    outer.game_root.menu.hide();
+                    outer.login();
+                }
+            },
+        });
     }
 
     hide() {
-        console.log("outer hide")
+        this.settings_box.hide();
     }
 
     show() {
-        console.log("outer show")
+        this.settings_box.show();
     }
-}// 文件名是 zbase 的原因是因为按照字典序排序的话
+}
+// 文件名是 zbase 的原因是因为按照字典序排序的话
 // 这个 js 是总领的 js 文件，
 // 功能包含 获取 html 中的 js game 对象
 //          创建 menu 对象，使用 menu/GameMenu

@@ -21,14 +21,11 @@ class Game {
         this.start();
     }
 
-    start() { }
+    start() {}
     create_playground() {
         let outer = this;
         outer.playground = new GamePlayGround(this);
     }
 }
 
-
-export {
-    Game
-}
+export { Game };

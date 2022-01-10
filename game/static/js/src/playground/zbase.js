@@ -11,8 +11,8 @@ class GamePlayGround {
     constructor(game_root) {
         this.game_root = game_root;
 
-        this.playground = document.createElement('div');
-        this.playground.className = 'game-playground';
+        this.playground = document.createElement("div");
+        this.playground.className = "game-playground";
         this.playground.innerHTML = ``;
 
         this.game_root.game.appendChild(this.playground);
@@ -24,13 +24,10 @@ class GamePlayGround {
         this.start();
     }
 
-
-
     get_random_color() {
-        let return_color = this.colors[Math.floor((Math.random) * 5)]
+        let return_color = this.colors[Math.floor(Math.random * 5)];
         return return_color;
     }
-
 
     start() {
         // this.hide();
@@ -39,27 +36,60 @@ class GamePlayGround {
         this.game_map = new GameMap(this);
 
         this.players = [];
-        this.colors = ["blue", "pink", "grey", "green", "orange", "#9768ab", "#145266", "#d9688f", "#2cf543", "#a37e26"];
+        this.colors = [
+            "blue",
+            "pink",
+            "grey",
+            "green",
+            "orange",
+            "#9768ab",
+            "#145266",
+            "#d9688f",
+            "#2cf543",
+            "#a37e26",
+        ];
         //playground_root, x, y, radius, color, speed, is_me
-        this.players.push(new Player(this.game_root, this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.2, true));
+        this.players.push(
+            new Player(
+                this.game_root,
+                this,
+                this.width / 2,
+                this.height / 2,
+                this.height * 0.05,
+                "white",
+                this.height * 0.2,
+                true
+            )
+        );
 
         for (let i = 4; i < 4 + 6; i++) {
             let p_color = this.colors[i];
-            this.players.push(new Player(this.game_root, this, this.width / 2, this.height / 2, this.height * 0.05, p_color, this.height * 0.2, false));
+            this.players.push(
+                new Player(
+                    this.game_root,
+                    this,
+                    this.width / 2,
+                    this.height / 2,
+                    this.height * 0.05,
+                    p_color,
+                    this.height * 0.2,
+                    false
+                )
+            );
         }
     }
 
-    show() { // 展示 playground 页面
+    show() {
+        // 展示 playground 页面
         this.playground.style.display = "block";
     }
 
-    hide() { // 隐藏 playground 页面
+    hide() {
+        // 隐藏 playground 页面
         this.playground.style.display = "none";
     }
 
-    update() {
-    }
+    update() {}
 
-    render() {
-    }
+    render() {}
 }

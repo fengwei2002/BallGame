@@ -1,30 +1,32 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
-    <link rel="stylesheet" href="{% static 'css/game.css' %}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
 
-</head>
-<body>
-    <div id="game_12345678"></div>
-    
-	<script type="module">
-        // 模块方式引入 game.js 中的 Game
-        import {Game} from "{% static 'js/dist/game.js' %}";
+        <link
+            rel="stylesheet"
+            href="https://cdn.acwing.com/static/jquery-ui-dist/jquery-ui.min.css"
+        />
+        <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/game.css' %}" />
+    </head>
+    <body>
+        <div id="game_dom_root"></div>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let game = new Game("game_12345678");
-        })
-        // 文件加载完毕之后创建一个 game 对象
-    </script>
+        <script type="module">
+            // 模块方式引入 game.js 中的 Game
+            import { Game } from "{% static 'js/dist/game.js' %}";
 
-</body>
+            document.addEventListener("DOMContentLoaded", function () {
+                let game = new Game("game_dom_root");
+            });
+            // 文件加载完毕之后创建一个 game 对象
+        </script>
+    </body>
 </html>
