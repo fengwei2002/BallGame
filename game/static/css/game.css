@@ -62,20 +62,345 @@ body {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
+/*login-from*/
+/* 清除浏览器默认边距，
+使边框和内边距的值包含在元素的width和height内 */
 
-
-.game-setting-menu {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: url(https://media.giphy.com/media/01vw80KKJxhEtJNZvK/giphy.gif);
-    background-size: 100% 100%;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.game-playground {
-    position: fixed;
+/* 使用flex布局，让内容垂直和水平居中 */
+
+section {
+    /* 相对定位 */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* linear-gradient() 函数用于创建一个表示两种或多种颜色线性渐变的图片 */
+    background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
+}
+
+/* 背景颜色 */
+
+section .color {
+    /* 绝对定位 */
+    position: absolute;
+    /* 使用filter(滤镜) 属性，给图像设置高斯模糊*/
+    filter: blur(200px);
+}
+
+/* :nth-child(n) 选择器匹配父元素中的第 n 个子元素 */
+
+section .color:nth-child(1) {
+    top: -350px;
+    width: 600px;
+    height: 600px;
+    background: #ff359b;
+}
+
+section .color:nth-child(2) {
+    bottom: -120px;
+    left: 100px;
+    width: 500px;
+    height: 500px;
+    background: #fffd87;
+}
+
+section .color:nth-child(3) {
+    bottom: 50px;
+    right: 100px;
+    width: 500px;
+    height: 500px;
+    background: #00d2ff;
+}
+
+
+section .color:nth-child(4) {
+    bottom: 50px;
+    right: 50px;
+    width: 500px;
+    height: 500px;
+    background: #9400d3;
+}
+
+
+section .color:nth-child(5) {
+    bottom: 10px;
+    right: 100px;
+    width: 500px;
+    height: 500px;
+    background: #ff2600;
+}
+
+.box {
+    position: relative;
+}
+
+/* 背景圆样式 */
+
+.box .circle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    /* backdrop-filter属性为一个元素后面区域添加模糊效果 */
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    /* 使用filter(滤镜) 属性，改变颜色。
+    hue-rotate(deg)  给图像应用色相旋转 
+    calc() 函数用于动态计算长度值 
+    var() 函数调用自定义的CSS属性值x*/
+    filter: hue-rotate(calc(var(--x) * 70deg));
+    /* 调用动画animate，需要10s完成动画，
+    linear表示动画从头到尾的速度是相同的，
+    infinite指定动画应该循环播放无限次*/
+    animation: animate 10s linear infinite;
+    /* 动态计算动画延迟几秒播放 */
+    animation-delay: calc(var(--x) * -1s);
+}
+
+/* 背景圆动画 */
+
+@keyframes animate {
+    0% {
+        transform: translateY(-70px);
+    }
+
+    50% {
+        transform: translateY(120px);
+    }
+    
+    60% {
+        transform: translateX(70px);
+    }
+
+    70% {
+        transform: translateX(100px);
+    }
+
+    100% {
+        transform: translateY(-70px);
+    }
+}
+
+.box .circle:nth-child(1) {
+    top: -50px;
+    right: -60px;
+    width: 100px;
+    height: 100px;
+}
+
+.box .circle:nth-child(2) {
+    top: 100px;
+    left: -200px;
+    width: 120px;
+    height: 120px;
+    z-index: 2;
+}
+
+.box .circle:nth-child(3) {
+    bottom: 50px;
+    right: -30px;
+    width: 80px;
+    height: 80px;
+    z-index: 2;
+}
+
+.box .circle:nth-child(4) {
+    bottom: -80px;
+    left: 100px;
+    width: 60px;
+    height: 60px;
+}
+
+.box .circle:nth-child(5) {
+    top: 80px;
+    left: 60px;
+    width: 40px;
+    height: 40px;
+}
+
+.box .circle:nth-child(6) {
+    top: -90px;
+    left: 30px;
+    width: 55px;
+    height: 55px;
+    z-index: 2;
+}
+
+.box .circle:nth-child(7) {
+    top: -80px;
+    left: 140px;
+    width: 70px;
+    height: 70px;
+}
+
+/* 登录框样式 */
+
+.container {
+    position: relative;
+    width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+}
+
+.form {
+    position: relative;
     width: 100%;
     height: 100%;
-    user-select: none;
-    color: white;
+    padding: 50px;
 }
+
+/* 登录标题样式 */
+
+.info-title span {
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.info-title span .fa {
+    color: #ed2553;
+}
+
+.info-title span a {
+    margin-bottom: 30px;
+    cursor: pointer;
+    color: #ed2553;
+    font-weight: 600;
+    position: relative;
+    text-decoration: none;
+}
+
+/* 登录标题的下划线样式 */
+
+.form h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 0px;
+    height: 3px;
+    background: #fff;
+    transition: 0.5s;
+}
+
+.form h2:hover:before {
+    width: 53px;
+}
+
+.form .inputBox {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* 输入框样式 */
+
+.form .inputBox input {
+    width: 100%;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    border: none;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form .inputBox input::placeholder {
+    color: #fff;
+}
+
+/* 登录按钮样式 */
+
+.form .inputBox input[type="submit"] {
+    display: inline;
+    background: #fff;
+    color: #ed2553;
+    max-width: 40%;
+    margin-bottom: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.form .inputBox input[type="submit"]:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+
+.form .inputBox input[type="button"] {
+    display: inline;
+    background: #fff;
+    color: #ed2553;
+    max-width: 40%;
+    margin-bottom: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.form .inputBox input[type="button"]:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.game-settings-login-sign-up {
+    margin-left: 15.5%;
+}
+
+.game-settings-register-sign-up {
+    margin-left: 15.5%;
+}
+
+.game-settings-login-error-message {
+    color: red;
+}
+
+.game-settings-register-error-message {
+    color: #ff2600;
+}
+
+.game-settings-login-forget {
+    margin-top: 6px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.game-settings-login-forget a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.game-settings-register-forget {
+    margin-top: 6px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.game-settings-register-forget a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+/*login-from-end*/

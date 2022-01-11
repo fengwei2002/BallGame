@@ -13,10 +13,8 @@ class Game {
 
         this.id = id;
         this.game = document.getElementById(id);
-
-        this.settings = new Settings(this);
-
         this.menu = new GameMenu(this);
+        this.settings = new Settings(this);
         this.playground;
         this.start();
     }

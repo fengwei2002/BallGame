@@ -10,8 +10,8 @@ class GameMenu {
         // 传入的 root 就相当于 web.html 中定义的 Game 对象
         this.game_root = game_root;
 
-        this.menu = document.createElement('div');
-        this.menu.className = 'game-menu';
+        this.menu = document.createElement("div");
+        this.menu.className = "game-menu";
         this.menu.innerHTML = `
         <div class = "game-menu-background-box">
             <div class="game-menu-item game-menu-item-single" >
@@ -35,14 +35,13 @@ class GameMenu {
         </div>
             `;
 
-
-        // 将 menu 的每个类绑定到成员变量
-        this.single = this.menu.querySelector('.game-menu-item-single');
-        this.mul = this.menu.querySelector('.game-menu-item-multi');
-        this.settings = this.menu.querySelector('.game-menu-item-settings');
-        this.author = this.menu.querySelector('.game-menu-item-author');
-        this.source = this.menu.querySelector('.game-menu-item-source');
-        this.box = this.menu.querySelector('.game-menu-background-box');
+        // 将 menu 的每一个zi class 绑定到成员变量
+        this.single = this.menu.querySelector(".game-menu-item-single");
+        this.mul = this.menu.querySelector(".game-menu-item-multi");
+        this.settings = this.menu.querySelector(".game-menu-item-settings");
+        this.author = this.menu.querySelector(".game-menu-item-author");
+        this.source = this.menu.querySelector(".game-menu-item-source");
+        this.box = this.menu.querySelector(".game-menu-background-box");
 
         this.game_root.game.appendChild(this.menu);
 
@@ -51,36 +50,69 @@ class GameMenu {
 
     start() {
         this.add_listening_events();
-        this.show();
-        // this.hide();
         // 因为需要优先展示登录界面，所以这里先隐藏掉 menu
     }
-
 
     add_listening_events() {
         let outer = this;
 
         // 为这些 class 绑定 click 的监听事件
-        outer.single.addEventListener("click", () => {
-            outer.hide();
-            // 注意对象的调用层级，outer.root 就是 Game 对象了
-            outer.game_root.create_playground(); // 点击开始游戏之后才创建画布对象
-        }, false);
+        outer.single.addEventListener(
+            "click",
+            () => {
+                outer.hide();
+                // 注意对象的调用层级，outer.root 就是 Game 对象了
+                outer.game_root.create_playground(); // 点击开始游戏之后才创建画布对象
+            },
+            false
+        );
 
-        outer.mul.addEventListener("click", () => { console.log("multi") }, false);
-        outer.settings.addEventListener("click", () => { console.log("settings") }, false);
-        outer.author.addEventListener("click", () => { console.log("author") }, false);
-        outer.source.addEventListener("click", () => { console.log("source") }, false);
-        outer.box.addEventListener("click", () => { console.log("box") }, false);
+        outer.mul.addEventListener(
+            "click",
+            () => {
+                console.log("multi");
+            },
+            false
+        );
+        outer.settings.addEventListener(
+            "click",
+            () => {
+                console.log("settings");
+            },
+            false
+        );
+        outer.author.addEventListener(
+            "click",
+            () => {
+                console.log("author");
+            },
+            false
+        );
+        outer.source.addEventListener(
+            "click",
+            () => {
+                console.log("source");
+            },
+            false
+        );
+        outer.box.addEventListener(
+            "click",
+            () => {
+                console.log("box");
+            },
+            false
+        );
     }
 
     show() {
         // 展示 menu 界面
+        console.log("show menu");
         this.menu.style.display = "display";
     }
 
     hide() {
         // 关闭 menu 界面
+        console.log("hide menu");
         this.menu.style.display = "none";
     }
 }
