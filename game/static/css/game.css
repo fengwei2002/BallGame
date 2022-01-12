@@ -37,7 +37,7 @@ body {
     height: 154px;
     padding: 1rem;
     border-radius: 3rem;
-    background: rgba(255, 255, 255, .3);
+    background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     overflow: hidden;
@@ -59,7 +59,7 @@ body {
     transform: scale(1.1);
     transition: 400ms;
     border-radius: 3rem;
-    background: rgba(148, 0, 211, .1);
+    background: rgba(148, 0, 211, 0.1);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -121,7 +121,6 @@ section .color:nth-child(3) {
     background: #00d2ff;
 }
 
-
 section .color:nth-child(4) {
     bottom: 50px;
     right: 50px;
@@ -129,7 +128,6 @@ section .color:nth-child(4) {
     height: 500px;
     background: #9400d3;
 }
-
 
 section .color:nth-child(5) {
     bottom: 10px;
@@ -178,7 +176,7 @@ section .color:nth-child(5) {
     50% {
         transform: translateY(120px);
     }
-    
+
     60% {
         transform: translateX(70px);
     }
@@ -333,23 +331,6 @@ section .color:nth-child(5) {
 }
 
 /* 登录按钮样式 */
-
-.form .inputBox input[type="submit"] {
-    display: inline;
-    background: #fff;
-    color: #ed2553;
-    max-width: 40%;
-    margin-bottom: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.5s ease;
-}
-
-.form .inputBox input[type="submit"]:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
-
 .form .inputBox input[type="button"] {
     display: inline;
     background: #fff;
@@ -405,3 +386,15 @@ section .color:nth-child(5) {
     text-decoration: none;
 }
 /*login-from-end*/
+
+/*playground*/
+.game-playground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+/*playground end*/
