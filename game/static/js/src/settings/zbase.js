@@ -34,14 +34,14 @@ class Settings {
                             ></span
                         >
                     </div>
-                    <form action="/">
+                    <form name="login_from">
                         <div class="inputBox">
                             <input
                                 id = "login-username"
                                 class="game-settings-login-username"
                                 type="text"
                                 placeholder="username"
-                                name="text"
+                                name="login_username"
                             />
                         </div>
                         <div class="inputBox">
@@ -50,13 +50,13 @@ class Settings {
                                 class="game-settings-login-password"
                                 type="password"
                                 placeholder="password"
-                                name="password"
+                                name="login_password"
                             />
                         </div>
                         <div class="inputBox">
                             <input
                                 class="game-settings-login-sign-in"
-                                type="submit"
+                                type="button"
                                 value="sign in"
                             />
                             <input
@@ -106,14 +106,14 @@ class Settings {
                             ></span
                         >
                     </div>
-                    <form action="/">
+                    <form name="register-from">
                         <div class="inputBox">
                             <input
                                 id = "register-username"
                                 class="game-settings-register-username"
                                 type="text"
                                 placeholder="username"
-                                name="text"
+                                name="register_username"
                             />
                         </div>
                         <div class="inputBox">
@@ -122,7 +122,7 @@ class Settings {
                                 class="game-settings-register-password"
                                 type="password"
                                 placeholder="password"
-                                name="password"
+                                name="register_password"
                             />
                         </div>
                         <div class="inputBox">
@@ -137,12 +137,12 @@ class Settings {
                         <div class="inputBox">
                             <input
                                 class="game-settings-register-sign-in"
-                                type="submit"
+                                type="button"
                                 value="sign in"
                             />
                             <input
                                 class="game-settings-register-sign-up"
-                                type="submit"
+                                type="button"
                                 value="sign up"
                             />
                         </div>
@@ -237,13 +237,12 @@ class Settings {
         if (this.platform === "ACAPP") {
             this.getinfo_acapp();
         } else {
-            this.get_info_web();
+            // this.get_info_web();
             this.add_listening_events();
         }
     }
 
     add_listening_events() {
-        let outer = this;
         // 添加切换页面的处理事件
         this.add_listening_events_login_sign_up();
         this.add_listening_events_register_sign_in();
@@ -258,7 +257,6 @@ class Settings {
         outer.login_sign_up.addEventListener(
             "click",
             () => {
-                // 点击之后跳到注册界面
                 outer.login_box.style.display = "none";
                 outer.register_box.style.display = "flex";
             },
@@ -272,7 +270,6 @@ class Settings {
         outer.register_sign_in.addEventListener(
             "click",
             () => {
-                // 点击之后跳到注册界面
                 outer.login_box.style.display = "flex";
                 outer.register_box.style.display = "none";
             },
@@ -283,40 +280,65 @@ class Settings {
     // 点击登录界面的登录，与服务器进行通信
     add_listening_events_login_sign_in() {
         let outer = this;
-        outer.login_sign_in.addEventListener(
-            "click",
-            () => {
-
+        outer.login_sign_in.addEventListener("click", () => {
+            // console.log(outer.login_username.value);
+            // console.log(outer.login_password.value);
+            outer.login_on_remote();
+            if (outer.login_error_message.style.display === "flex") {
+                outer.login_error_message.style.display === "none";
             }
-        )
+        });
     }
 
     // 点击注册界面的注册，与服务器进行通信
     add_listening_events_register_sign_up() {
         let outer = this;
-        outer.register_sign_up.addEventListener(
-            "click",
-            () => {
-                
-            }
-        )
+        outer.register_sign_up.addEventListener("click", () => {
+            // console.log(outer.register_username.value);
+            // console.log(outer.register_password.value);
+            console.log(outer.register_repeat_password.value);
+        });
     }
 
     acwing_login() {}
 
-    login_on_remote() { // 在远程服务器上登录
+    login_on_remote() {
+        // 在远程服务器上登录
         let outer = this;
-        let username = this.login_username.val();
-        let password = this.login_pass;
+        let username = outer.login_username.value;
+        let password = outer.login_password.value;
+        console.log(username);
+        console.log(password);
+        outer.login_error_message.style.display = "none";
+        $.ajax({
+            url: "https://app786.acapp.acwing.com.cn/settings/login/",
+            type: "GET",
+            data: {
+                username: username,
+                password: password,
+            },
+            success: function (resp) {
+                console.log(resp);
+                if (resp.result === "success") {
+                    // location.reload();
+                    outer.login_box.style.display = "none";
+                    outer.register_box.style.display = "none";
+                    outer.game_root.menu.show();
+                } else {
+                    outer.login_error_message.innerHTML = resp.result;
+                    outer.login_error_message.style.display = "flex";
+                }
+            },
+        });
     }
-    register_on_remote() { // 在远程服务器上注册
-
+    register_on_remote() {
+        // 在远程服务器上注册
     }
-    logout_on_remote() { // 在远程服务器上登出
-
+    logout_on_remote() {
+        // 在远程服务器上登出
     }
-    logout_on_remote() { // 在远程服务器上登出
-
+    logout_on_remote() {
+        // 在远程服务器上登出
     }
 
     // TODO fetch api 实现

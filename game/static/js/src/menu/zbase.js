@@ -107,7 +107,7 @@ class GameMenu {
     show() {
         // 展示 menu 界面
         console.log("show menu");
-        this.menu.style.display = "display";
+        this.menu.style.display = "block";
     }
 
     hide() {

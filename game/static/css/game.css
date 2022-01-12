@@ -27,6 +27,7 @@ body {
 }
 
 .game-menu-background-box {
+    min-height: 25%;
     position: relative;
     left: 50%;
     top: 50%;
