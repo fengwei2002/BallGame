@@ -29,8 +29,9 @@ class GameMenu {
                 About Author
             </div>
 
-            <div class="game-menu-item game-menu-item-source">
-                Source Code
+            <div class="game-menu-item game-menu-item-sign-out">
+                Sign Out
+                
             </div>
         </div>
             `;
@@ -40,7 +41,7 @@ class GameMenu {
         this.mul = this.menu.querySelector(".game-menu-item-multi");
         this.settings = this.menu.querySelector(".game-menu-item-settings");
         this.author = this.menu.querySelector(".game-menu-item-author");
-        this.source = this.menu.querySelector(".game-menu-item-source");
+        this.sign_out = this.menu.querySelector(".game-menu-item-sign-out");
         this.box = this.menu.querySelector(".game-menu-background-box");
 
         this.game_root.game.appendChild(this.menu);
@@ -88,10 +89,23 @@ class GameMenu {
             },
             false
         );
-        outer.source.addEventListener(
+        outer.sign_out.addEventListener(
             "click",
             () => {
-                console.log("source");
+                if (this.game_root.settings.platform === "ACAPP") return false;
+                $.ajax({
+                    url: "https://app786.acapp.acwing.com.cn/menu/sign_out/",
+                    type: "GET",
+                    success: function (resp) {
+                        console.log(resp);
+                        if (resp.result === "logout_success") {
+                            outer.game_root.menu.hide();
+                            outer.game_root.settings.login_box.style.display =
+                                "flex";
+                            window.document.location.reload();
+                        }
+                    },
+                });
             },
             false
         );
@@ -205,6 +219,7 @@ class GameMap extends GameObject {
 
         this.canvas.width = playground_root.width;
         this.canvas.height = playground_root.height;
+        // this.canvas.height = 900;
         // 为了实现自适应，所以 root 的 height 和 width 就需要进行自适应[
 
         // 注意这里使用原生 JS 创建 canvas 的时候必须指定长度和宽度，而不是使用 css 指定长度和宽度
@@ -316,12 +331,17 @@ class Player extends GameObject {
         this.game_root = game_root;
         if (this.is_me) {
             this.img = new Image();
-            this.img.src = this.game_root.settings.photo;
+            this.img.src = "https://s2.loli.net/2021/12/09/SG5unjPJftqULgI.jpg";
+            // 默认头像
         }
+
+        this.start();
     }
 
     start() {
         if (this.is_me) {
+            // 给自己画个头像：
+            // this.img.src = this.game_root.settings.photo;
             this.add_listening_events();
         } else {
             let tx = Math.random() * this.playground_root.width;
@@ -671,6 +691,8 @@ class GamePlayGround {
         // 由于 width 的 height 会经常用到，所以这里读出
         this.width = this.playground.clientWidth;
         this.height = this.playground.clientHeight;
+        // this.height = 900;
+        console.log("game-playground", this.width, this.height);
 
         this.start();
     }
@@ -750,7 +772,7 @@ class Settings {
         this.platform = "WEB";
         if (this.game_root.AcWingOS) this.platform = "ACAPP";
         this.username = "no_user";
-        this.photo = "no_photo";
+        this.photo = "https://s2.loli.net/2021/12/09/SG5unjPJftqULgI.jpg";
 
         this.settings_box = document.createElement("div");
         this.settings_box.className = "game-settings";
@@ -818,7 +840,7 @@ class Settings {
                         <p class="game-settings-login-error-message">
                             error message
                         </p>
-                        <p class=".game-settings-login-third">
+                        <p class="game-settings-login-third">
                             第三方登录
                         </p>
                     </form>
@@ -899,7 +921,7 @@ class Settings {
                         <p class="game-settings-register-error-message">
                             error message
                         </p>
-                        <p class=".game-settings-register-third">
+                        <p class="game-settings-register-third">
                             第三方登录
                         </p>
                     </form>
@@ -937,6 +959,7 @@ class Settings {
         );
         this.login_forget.style.display = "none";
         this.login_box.style.display = "none";
+        this.login_third.style.display = "none";
 
         // register 相关组件
         this.register_box = this.settings_box.querySelector(
@@ -969,6 +992,7 @@ class Settings {
         this.register_forget.style.display = "none";
         this.register_error_message.style.display = "none";
         this.register_box.style.display = "none";
+        this.register_third.style.display = "none";
 
         this.start();
     }
@@ -983,7 +1007,7 @@ class Settings {
         if (this.platform === "ACAPP") {
             this.getinfo_acapp();
         } else {
-            // this.get_info_web();
+            this.get_info_web();
             this.add_listening_events();
         }
     }
@@ -997,7 +1021,7 @@ class Settings {
         this.add_listening_events_register_sign_up();
     }
 
-    // 点击登录界面的注册，跳转到注册界面
+    // 1. 点击登录界面的注册，跳转到注册界面
     add_listening_events_login_sign_up() {
         let outer = this;
         outer.login_sign_up.addEventListener(
@@ -1010,7 +1034,7 @@ class Settings {
         );
     }
 
-    // 点击注册界面的登录，跳转到登录界面
+    // 2. 点击注册界面的登录，跳转到登录界面
     add_listening_events_register_sign_in() {
         let outer = this;
         outer.register_sign_in.addEventListener(
@@ -1023,12 +1047,11 @@ class Settings {
         );
     }
 
-    // 点击登录界面的登录，与服务器进行通信
+    // 3. 点击登录界面的登录，与服务器进行通信, 同时关闭 error
     add_listening_events_login_sign_in() {
         let outer = this;
+        // outer.get_info_web();
         outer.login_sign_in.addEventListener("click", () => {
-            // console.log(outer.login_username.value);
-            // console.log(outer.login_password.value);
             outer.login_on_remote();
             if (outer.login_error_message.style.display === "flex") {
                 outer.login_error_message.style.display === "none";
@@ -1036,26 +1059,25 @@ class Settings {
         });
     }
 
-    // 点击注册界面的注册，与服务器进行通信
+    // 4. 点击注册界面的注册，与服务器进行通信，同时关闭 error
     add_listening_events_register_sign_up() {
         let outer = this;
         outer.register_sign_up.addEventListener("click", () => {
-            // console.log(outer.register_username.value);
-            // console.log(outer.register_password.value);
-            console.log(outer.register_repeat_password.value);
+            outer.register_on_remote();
+            if (outer.register_error_message.style.display === "flex") {
+                outer.register_error_message.style.display === "none";
+            }
         });
     }
 
     acwing_login() {}
+    getinfo_acapp() {}
 
     login_on_remote() {
         // 在远程服务器上登录
         let outer = this;
-        let username = outer.login_username.value;
-        let password = outer.login_password.value;
-        console.log(username);
-        console.log(password);
-        outer.login_error_message.style.display = "none";
+        let username = outer.login_username.value; // 获取输入的 username
+        let password = outer.login_password.value; // 获取输入的 password
         $.ajax({
             url: "https://app786.acapp.acwing.com.cn/settings/login/",
             type: "GET",
@@ -1066,58 +1088,80 @@ class Settings {
             success: function (resp) {
                 console.log(resp);
                 if (resp.result === "success") {
-                    // location.reload();
+                    // 登录成功之后刷新用户的相关信息
+                    outer.username = resp.username;
+                    outer.password = resp.password;
+
+                    // 登录成功之后进行页面的切换
                     outer.login_box.style.display = "none";
                     outer.register_box.style.display = "none";
                     outer.game_root.menu.show();
                 } else {
+                    // 登录失败展示 error 信息
                     outer.login_error_message.innerHTML = resp.result;
                     outer.login_error_message.style.display = "flex";
                 }
             },
         });
     }
+
     register_on_remote() {
         // 在远程服务器上注册
-    }
-    logout_on_remote() {
-        // 在远程服务器上登出
-    }
-    logout_on_remote() {
-        // 在远程服务器上登出
-    }
-
-    // TODO fetch api 实现
-    // TODO 使用 XMLHttp 请求库实现对象的具体赋值。。。。。
-    get_info_web() {
         let outer = this;
-
+        let username = outer.register_username.value;
+        let password = outer.register_password.value;
+        let repeat_password = outer.register_repeat_password.value;
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/get_info/",
+            url: "https://app786.acapp.acwing.com.cn/settings/register/",
             type: "GET",
             data: {
-                platform: outer.platform,
+                username: username,
+                password: password,
+                repeat_password: repeat_password,
             },
             success: function (resp) {
+                console.log(resp);
                 if (resp.result === "success") {
-                    console.log(resp);
-                    outer.username = resp.username;
-                    outer.photo = resp.photo;
-                    // outer.game_root.menu.show();
+                    outer.register_box.style.display = "none";
+                    outer.login_box.style.display = "flex";
+                    // 新注册的用户获得一张默认头像
+                    // outer.photo = resp.photo;
                 } else {
-                    // outer.game_root.menu.hide();
-                    outer.start_login();
+                    outer.register_error_message.innerHTML = resp.result;
+                    outer.register_error_message.style.display = "flex";
                 }
             },
         });
     }
 
-    start_register() {
-        this.login_box.hide();
-        this.register_box.show();
+    // TODO 使用 fetch api 实现
+    // TODO 使用 XMLHttp 请求库实现
+    get_info_web() {
+        let outer = this;
+        let username = outer.login_username.value;
+        $.ajax({
+            url: "https://app786.acapp.acwing.com.cn/settings/get_info/",
+            type: "GET",
+            data: {
+                username: username,
+                platform: outer.platform,
+            },
+            success: function (resp) {
+                console.log(resp);
+                if (resp.result === "success") {
+                    // 如果得到用户的信息，将这些信息保存下来
+                    outer.username = resp.username;
+                    // outer.photo = resp.photo;
+                    // 执行页面切换
+                    outer.login_box.style.display = "none";
+                    outer.game_root.menu.show();
+                } else {
+                    outer.game_root.menu.hide();
+                    outer.login_box.style.display = "flex";
+                }
+            },
+        });
     }
-
-    start_login() {}
 }
 // 文件名是 zbase 的原因是因为按照字典序排序的话
 // 这个 js 是总领的 js 文件，
@@ -1143,7 +1187,7 @@ class Game {
     start() {}
     create_playground() {
         let outer = this;
-        outer.playground = new GamePlayGround(this);
+        outer.playground = new GamePlayGround(outer);
     }
 }
 

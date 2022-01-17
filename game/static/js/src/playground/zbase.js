@@ -20,6 +20,8 @@ class GamePlayGround {
         // 由于 width 的 height 会经常用到，所以这里读出
         this.width = this.playground.clientWidth;
         this.height = this.playground.clientHeight;
+        // this.height = 900;
+        console.log("game-playground", this.width, this.height);
 
         this.start();
     }

@@ -14,5 +14,7 @@ def sign_in(request):
         })
     login(request, user)
     return JsonResponse({
-        'result': "success"
+        'result': "success",
+        'username': username,
+        'password': password,
     })

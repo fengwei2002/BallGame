@@ -17,6 +17,7 @@ class GameMap extends GameObject {
 
         this.canvas.width = playground_root.width;
         this.canvas.height = playground_root.height;
+        // this.canvas.height = 900;
         // 为了实现自适应，所以 root 的 height 和 width 就需要进行自适应[
 
         // 注意这里使用原生 JS 创建 canvas 的时候必须指定长度和宽度，而不是使用 css 指定长度和宽度

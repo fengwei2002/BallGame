@@ -29,12 +29,17 @@ class Player extends GameObject {
         this.game_root = game_root;
         if (this.is_me) {
             this.img = new Image();
-            this.img.src = this.game_root.settings.photo;
+            this.img.src = "https://s2.loli.net/2021/12/09/SG5unjPJftqULgI.jpg";
+            // 默认头像
         }
+
+        this.start();
     }
 
     start() {
         if (this.is_me) {
+            // 给自己画个头像：
+            // this.img.src = this.game_root.settings.photo;
             this.add_listening_events();
         } else {
             let tx = Math.random() * this.playground_root.width;

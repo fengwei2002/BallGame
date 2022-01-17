@@ -29,8 +29,9 @@ class GameMenu {
                 About Author
             </div>
 
-            <div class="game-menu-item game-menu-item-source">
-                Source Code
+            <div class="game-menu-item game-menu-item-sign-out">
+                Sign Out
+                
             </div>
         </div>
             `;
@@ -40,7 +41,7 @@ class GameMenu {
         this.mul = this.menu.querySelector(".game-menu-item-multi");
         this.settings = this.menu.querySelector(".game-menu-item-settings");
         this.author = this.menu.querySelector(".game-menu-item-author");
-        this.source = this.menu.querySelector(".game-menu-item-source");
+        this.sign_out = this.menu.querySelector(".game-menu-item-sign-out");
         this.box = this.menu.querySelector(".game-menu-background-box");
 
         this.game_root.game.appendChild(this.menu);
@@ -88,10 +89,23 @@ class GameMenu {
             },
             false
         );
-        outer.source.addEventListener(
+        outer.sign_out.addEventListener(
             "click",
             () => {
-                console.log("source");
+                if (this.game_root.settings.platform === "ACAPP") return false;
+                $.ajax({
+                    url: "https://app786.acapp.acwing.com.cn/menu/sign_out/",
+                    type: "GET",
+                    success: function (resp) {
+                        console.log(resp);
+                        if (resp.result === "logout_success") {
+                            outer.game_root.menu.hide();
+                            outer.game_root.settings.login_box.style.display =
+                                "flex";
+                            window.document.location.reload();
+                        }
+                    },
+                });
             },
             false
         );

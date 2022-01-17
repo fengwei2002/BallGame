@@ -22,7 +22,7 @@ class Game {
     start() {}
     create_playground() {
         let outer = this;
-        outer.playground = new GamePlayGround(this);
+        outer.playground = new GamePlayGround(outer);
     }
 }
 
