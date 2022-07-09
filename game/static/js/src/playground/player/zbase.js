@@ -92,9 +92,9 @@ class Player extends GameObject {
                     outer.cur_skill = "fireball";
                 }
 
-                // if (event.code === 'Space') {
-                //     console.log('space')
-                // }
+                if (event.code === 'Space') {
+                    outer.cur_skill = "fireball";
+                }
 
                 // if (event.code === 'ArrowUp') {
                 //     console.log('u')
@@ -219,7 +219,7 @@ class Player extends GameObject {
             let ty =
                 player.y +
                 ((player.speed * this.vy * this.time_delta) / 1000) * 0.3;
-            // this.shoot_fireball(tx, ty);
+            this.shoot_fireball(tx, ty);
         }
 
         if (this.damage_speed > 10) {
@@ -241,7 +241,7 @@ class Player extends GameObject {
                     // 一停下来一鞭子抽上去！
                     let tx = Math.random() * this.playground_root.width;
                     let ty = Math.random() * this.playground_root.height;
-                    // this.move_to(tx, ty);
+                    this.move_to(tx, ty);
                 }
             } else {
                 let moved = Math.min(

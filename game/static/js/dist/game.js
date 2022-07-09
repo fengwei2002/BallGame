@@ -31,7 +31,7 @@ class GameMenu {
 
             <div class="game-menu-item game-menu-item-sign-out">
                 Sign Out
-                
+
             </div>
         </div>
             `;
@@ -94,7 +94,7 @@ class GameMenu {
             () => {
                 if (this.game_root.settings.platform === "ACAPP") return false;
                 $.ajax({
-                    url: "https://app786.acapp.acwing.com.cn/menu/sign_out/",
+                    url: "http://47.97.213.122:8000/menu/sign_out/",
                     type: "GET",
                     success: function (resp) {
                         console.log(resp);
@@ -240,7 +240,8 @@ class GameMap extends GameObject {
     }
 
     render() {
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+        // this.ctx.fillStyle = "rgba(0, 0, 0, 1)"; 去除阴影
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
 }
@@ -394,9 +395,9 @@ class Player extends GameObject {
                     outer.cur_skill = "fireball";
                 }
 
-                // if (event.code === 'Space') {
-                //     console.log('space')
-                // }
+                if (event.code === 'Space') {
+                    outer.cur_skill = "fireball";
+                }
 
                 // if (event.code === 'ArrowUp') {
                 //     console.log('u')
@@ -521,7 +522,7 @@ class Player extends GameObject {
             let ty =
                 player.y +
                 ((player.speed * this.vy * this.time_delta) / 1000) * 0.3;
-            // this.shoot_fireball(tx, ty);
+            this.shoot_fireball(tx, ty);
         }
 
         if (this.damage_speed > 10) {
@@ -543,7 +544,7 @@ class Player extends GameObject {
                     // 一停下来一鞭子抽上去！
                     let tx = Math.random() * this.playground_root.width;
                     let ty = Math.random() * this.playground_root.height;
-                    // this.move_to(tx, ty);
+                    this.move_to(tx, ty);
                 }
             } else {
                 let moved = Math.min(
@@ -770,7 +771,6 @@ class Settings {
     constructor(game_root) {
         this.game_root = game_root;
         this.platform = "WEB";
-        if (this.game_root.AcWingOS) this.platform = "ACAPP";
         this.username = "no_user";
         this.photo = "https://s2.loli.net/2021/12/09/SG5unjPJftqULgI.jpg";
 
@@ -848,7 +848,7 @@ class Settings {
             </div>
         </div>
     </section>
-    
+
     <section class="game-settings-register">
         <!-- 背景颜色 -->
         <div class="color"></div>
@@ -1070,8 +1070,8 @@ class Settings {
         });
     }
 
-    acwing_login() {}
-    getinfo_acapp() {}
+    acwing_login() { }
+    getinfo_acapp() { }
 
     login_on_remote() {
         // 在远程服务器上登录
@@ -1079,7 +1079,7 @@ class Settings {
         let username = outer.login_username.value; // 获取输入的 username
         let password = outer.login_password.value; // 获取输入的 password
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/login/",
+            url: "http://47.97.213.122:8000/settings/login/",
             type: "GET",
             data: {
                 username: username,
@@ -1112,7 +1112,7 @@ class Settings {
         let password = outer.register_password.value;
         let repeat_password = outer.register_repeat_password.value;
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/register/",
+            url: "http://47.97.213.122:8000/settings/register/",
             type: "GET",
             data: {
                 username: username,
@@ -1140,7 +1140,7 @@ class Settings {
         let outer = this;
         let username = outer.login_username.value;
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/get_info/",
+            url: "http://47.97.213.122:8000/settings/get_info/",
             type: "GET",
             data: {
                 username: username,

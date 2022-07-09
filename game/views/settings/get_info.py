@@ -35,9 +35,7 @@ def get_info_web(request):
 def get_info(request):
     platform = request.GET.get('platform')
     # 手动传入一个名字叫做 platform 的属性
-    if platform == "ACAPP":
-        get_info_acapp(request)
-    elif platform == "WEB":
+    if platform == "WEB":
         return get_info_web(request)
     else:
         return JsonResponse({

@@ -2,7 +2,6 @@ class Settings {
     constructor(game_root) {
         this.game_root = game_root;
         this.platform = "WEB";
-        if (this.game_root.AcWingOS) this.platform = "ACAPP";
         this.username = "no_user";
         this.photo = "https://s2.loli.net/2021/12/09/SG5unjPJftqULgI.jpg";
 
@@ -80,7 +79,7 @@ class Settings {
             </div>
         </div>
     </section>
-    
+
     <section class="game-settings-register">
         <!-- 背景颜色 -->
         <div class="color"></div>
@@ -302,8 +301,8 @@ class Settings {
         });
     }
 
-    acwing_login() {}
-    getinfo_acapp() {}
+    acwing_login() { }
+    getinfo_acapp() { }
 
     login_on_remote() {
         // 在远程服务器上登录
@@ -311,7 +310,7 @@ class Settings {
         let username = outer.login_username.value; // 获取输入的 username
         let password = outer.login_password.value; // 获取输入的 password
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/login/",
+            url: "http://47.97.213.122:8000/settings/login/",
             type: "GET",
             data: {
                 username: username,
@@ -344,7 +343,7 @@ class Settings {
         let password = outer.register_password.value;
         let repeat_password = outer.register_repeat_password.value;
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/register/",
+            url: "http://47.97.213.122:8000/settings/register/",
             type: "GET",
             data: {
                 username: username,
@@ -372,7 +371,7 @@ class Settings {
         let outer = this;
         let username = outer.login_username.value;
         $.ajax({
-            url: "https://app786.acapp.acwing.com.cn/settings/get_info/",
+            url: "http://47.97.213.122:8000/settings/get_info/",
             type: "GET",
             data: {
                 username: username,

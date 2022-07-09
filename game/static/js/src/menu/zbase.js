@@ -31,7 +31,7 @@ class GameMenu {
 
             <div class="game-menu-item game-menu-item-sign-out">
                 Sign Out
-                
+
             </div>
         </div>
             `;
@@ -94,7 +94,7 @@ class GameMenu {
             () => {
                 if (this.game_root.settings.platform === "ACAPP") return false;
                 $.ajax({
-                    url: "https://app786.acapp.acwing.com.cn/menu/sign_out/",
+                    url: "http://47.97.213.122:8000/menu/sign_out/",
                     type: "GET",
                     success: function (resp) {
                         console.log(resp);
