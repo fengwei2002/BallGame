@@ -235,12 +235,8 @@ class Settings {
         this.register_error_message.style.display = "none";
         this.login_box.style.display = "flex";
 
-        if (this.platform === "ACAPP") {
-            this.getinfo_acapp();
-        } else {
-            this.get_info_web();
-            this.add_listening_events();
-        }
+        this.get_info_web();
+        this.add_listening_events();
     }
 
     add_listening_events() {
@@ -300,10 +296,6 @@ class Settings {
             }
         });
     }
-
-    acwing_login() { }
-    getinfo_acapp() { }
-
     login_on_remote() {
         // 在远程服务器上登录
         let outer = this;
